@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.6)
 
-set(PYTHON_VERSION "3.6.7" CACHE STRING "The version of Python to build.")
+set(PYTHON_VERSION "2.7.16" CACHE STRING "The version of Python to build.")
 
 string(REPLACE "." ";" VERSION_LIST ${PYTHON_VERSION})
 list(GET VERSION_LIST 0 PY_VERSION_MAJOR)
@@ -174,38 +174,40 @@ get_filename_component(SRC_DIR "${SRC_DIR}" ABSOLUTE)
 
 # Download sources
 get_filename_component(_parent_dir ${CMAKE_CURRENT_BINARY_DIR} PATH)
-string(REGEX REPLACE "rc[1-9]$" "" _py_version_patch_no_rc ${PY_VERSION_PATCH})
-set(_py_version_no_rc "${PY_VERSION_MAJOR}.${PY_VERSION_MINOR}.${_py_version_patch_no_rc}")
-set(_download_link "https://www.python.org/ftp/python/${_py_version_no_rc}/Python-${PY_VERSION}.tgz")
+
+# Only Use CMake Build For TPY
+# string(REGEX REPLACE "rc[1-9]$" "" _py_version_patch_no_rc ${PY_VERSION_PATCH})
+# set(_py_version_no_rc "${PY_VERSION_MAJOR}.${PY_VERSION_MINOR}.${_py_version_patch_no_rc}")
+# set(_download_link "https://www.python.org/ftp/python/${_py_version_no_rc}/Python-${PY_VERSION}.tgz")
 # Variable below represent the set of available python version.
 # 2.7.x
-set(_download_2.7.3_md5 "2cf641732ac23b18d139be077bd906cd")
-set(_download_2.7.4_md5 "592603cfaf4490a980e93ecb92bde44a")
-set(_download_2.7.5_md5 "b4f01a1d0ba0b46b05c73b2ac909b1df")
-set(_download_2.7.6_md5 "1d8728eb0dfcac72a0fd99c17ec7f386")
-set(_download_2.7.7_md5 "cf842800b67841d64e7fb3cd8acb5663")
-set(_download_2.7.8_md5 "d4bca0159acb0b44a781292b5231936f")
-set(_download_2.7.9_md5 "5eebcaa0030dc4061156d3429657fb83")
-set(_download_2.7.10_md5 "d7547558fd673bd9d38e2108c6b42521")
-set(_download_2.7.11_md5 "6b6076ec9e93f05dd63e47eb9c15728b")
-set(_download_2.7.12_md5 "88d61f82e3616a4be952828b3694109d")
-set(_download_2.7.13_md5 "17add4bf0ad0ec2f08e0cae6d205c700")
-set(_download_2.7.14_md5 "cee2e4b33ad3750da77b2e85f2f8b724")
-# 3.5.x
-set(_download_3.5.1_md5 "be78e48cdfc1a7ad90efff146dce6cfe")
-set(_download_3.5.2_md5 "3fe8434643a78630c61c6464fe2e7e72")
-set(_download_3.5.3_md5 "6192f0e45f02575590760e68c621a488")
-set(_download_3.5.4_md5 "2ed4802b7a2a7e40d2e797272bf388ec")
-set(_download_3.5.5_md5 "7c825b747d25c11e669e99b912398585")
-# 3.6.x
-set(_download_3.6.0_md5 "3f7062ccf8be76491884d0e47ac8b251")
-set(_download_3.6.1_md5 "2d0fc9f3a5940707590e07f03ecb08b9")
-set(_download_3.6.2_md5 "e1a36bfffdd1d3a780b1825daf16e56c")
-set(_download_3.6.3_md5 "e9180c69ed9a878a4a8a3ab221e32fa9")
-set(_download_3.6.4_md5 "9de6494314ea199e3633211696735f65")
-set(_download_3.6.5_md5 "ab25d24b1f8cc4990ade979f6dc37883")
-set(_download_3.6.6_md5 "9a080a86e1a8d85e45eee4b1cd0a18a2")
-set(_download_3.6.7_md5 "c83551d83bf015134b4b2249213f3f85")
+# set(_download_2.7.3_md5 "2cf641732ac23b18d139be077bd906cd")
+# set(_download_2.7.4_md5 "592603cfaf4490a980e93ecb92bde44a")
+# set(_download_2.7.5_md5 "b4f01a1d0ba0b46b05c73b2ac909b1df")
+# set(_download_2.7.6_md5 "1d8728eb0dfcac72a0fd99c17ec7f386")
+# set(_download_2.7.7_md5 "cf842800b67841d64e7fb3cd8acb5663")
+# set(_download_2.7.8_md5 "d4bca0159acb0b44a781292b5231936f")
+# set(_download_2.7.9_md5 "5eebcaa0030dc4061156d3429657fb83")
+# set(_download_2.7.10_md5 "d7547558fd673bd9d38e2108c6b42521")
+# set(_download_2.7.11_md5 "6b6076ec9e93f05dd63e47eb9c15728b")
+# set(_download_2.7.12_md5 "88d61f82e3616a4be952828b3694109d")
+# set(_download_2.7.13_md5 "17add4bf0ad0ec2f08e0cae6d205c700")
+# set(_download_2.7.14_md5 "cee2e4b33ad3750da77b2e85f2f8b724")
+# # 3.5.x
+# set(_download_3.5.1_md5 "be78e48cdfc1a7ad90efff146dce6cfe")
+# set(_download_3.5.2_md5 "3fe8434643a78630c61c6464fe2e7e72")
+# set(_download_3.5.3_md5 "6192f0e45f02575590760e68c621a488")
+# set(_download_3.5.4_md5 "2ed4802b7a2a7e40d2e797272bf388ec")
+# set(_download_3.5.5_md5 "7c825b747d25c11e669e99b912398585")
+# # 3.6.x
+# set(_download_3.6.0_md5 "3f7062ccf8be76491884d0e47ac8b251")
+# set(_download_3.6.1_md5 "2d0fc9f3a5940707590e07f03ecb08b9")
+# set(_download_3.6.2_md5 "e1a36bfffdd1d3a780b1825daf16e56c")
+# set(_download_3.6.3_md5 "e9180c69ed9a878a4a8a3ab221e32fa9")
+# set(_download_3.6.4_md5 "9de6494314ea199e3633211696735f65")
+# set(_download_3.6.5_md5 "ab25d24b1f8cc4990ade979f6dc37883")
+# set(_download_3.6.6_md5 "9a080a86e1a8d85e45eee4b1cd0a18a2")
+# set(_download_3.6.7_md5 "c83551d83bf015134b4b2249213f3f85")
 
 set(_extracted_dir "Python-${PY_VERSION}")
 
@@ -280,12 +282,12 @@ if(PYTHON_APPLY_PATCHES)
 endif()
 
 # Convenience boolean variables to easily test python version
-set(IS_PY3 0)
+#set(IS_PY3 0)
 set(IS_PY2 1)
-if(PY_VERSION_MAJOR VERSION_GREATER 2)
-    set(IS_PY3 1)
-    set(IS_PY2 0)
-endif()
+# if(PY_VERSION_MAJOR VERSION_GREATER 2)
+#     set(IS_PY3 1)
+#     set(IS_PY2 0)
+# endif()
 
 # Enable CXX language to support building of _distutils_findvs extension
 if(WIN32 AND IS_PY3)
@@ -471,16 +473,17 @@ if(BUILD_WININST)
     add_subdirectory(cmake/PC/bdist_wininst CMakeBuild/bdist_wininst)
 endif()
 
+# remove PY3 Supports
 # Add target to run "Argument Clinic" over all source files
-if(IS_PY3)
-add_custom_target(clinic
-    COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:python> ${SRC_DIR}/Tools/clinic/clinic.py --make
-    DEPENDS python
-    WORKING_DIRECTORY ${SRC_DIR}
-    COMMENT "Running 'Argument Clinic' over all source files"
-    VERBATIM
-)
-endif()
+# if(IS_PY3)
+# add_custom_target(clinic
+#     COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:python> ${SRC_DIR}/Tools/clinic/clinic.py --make
+#     DEPENDS python
+#     WORKING_DIRECTORY ${SRC_DIR}
+#     COMMENT "Running 'Argument Clinic' over all source files"
+#     VERBATIM
+# )
+# endif()
 
 # Add target to generate 'Include/graminit.h' and 'Python/graminit.c'
 add_custom_target(generate_graminit

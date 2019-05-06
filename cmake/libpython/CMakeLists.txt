@@ -53,9 +53,9 @@ elseif(WIN32)
     endif()
 
     set(_wide_char_modifier)
-    if(IS_PY3)
-        set(_wide_char_modifier "L")
-    endif()
+    # if(IS_PY3)
+    #     set(_wide_char_modifier "L")
+    # endif()
 
     set_property(
         SOURCE ${SRC_DIR}/PC/getpathp.c
@@ -156,13 +156,13 @@ if(UNIX AND HAVE_DLOPEN)
     list(APPEND DYNLOAD_SOURCES
         ${SRC_DIR}/Python/dynload_shlib.c
     )
-    if(IS_PY3)
-    set_property(
-        SOURCE ${SRC_DIR}/Python/dynload_shlib.c
-        PROPERTY COMPILE_DEFINITIONS
-            SOABI="${SOABI}"
-        )
-    endif()
+    # if(IS_PY3)
+    # set_property(
+    #     SOURCE ${SRC_DIR}/Python/dynload_shlib.c
+    #     PROPERTY COMPILE_DEFINITIONS
+    #         SOABI="${SOABI}"
+    #     )
+    # endif()
 elseif(WIN32)
     list(APPEND DYNLOAD_SOURCES
         ${SRC_DIR}/PC/dl_nt.c
@@ -266,13 +266,13 @@ if(UNIX OR MINGW)
         PROPERTY COMPILE_DEFINITIONS
             PLATFORM="${PY_PLATFORM}"
     )
-    if(IS_PY3)
-    set_property(
-        SOURCE ${SRC_DIR}/Python/sysmodule.c
-        PROPERTY COMPILE_DEFINITIONS
-            ABIFLAGS="${ABIFLAGS}"
-        )
-    endif()
+    # if(IS_PY3)
+    # set_property(
+    #     SOURCE ${SRC_DIR}/Python/sysmodule.c
+    #     PROPERTY COMPILE_DEFINITIONS
+    #         ABIFLAGS="${ABIFLAGS}"
+    #     )
+    # endif()
 endif()
 
 list(APPEND MODULE_SOURCES
@@ -381,55 +381,55 @@ endif()
 if(UNIX)
     list(APPEND LIBPYTHON_TARGET_LIBRARIES ${LIBUTIL_LIBRARIES} ${M_LIBRARIES})
 endif()
-if(WIN32 AND IS_PY3)
-    list(APPEND LIBPYTHON_TARGET_LIBRARIES ws2_32) # Required by signalmodule
-    if(PYTHON_VERSION VERSION_EQUAL "3.5" OR PYTHON_VERSION VERSION_GREATER "3.5")
-        list(APPEND LIBPYTHON_TARGET_LIBRARIES version) # Required by sysmodule
-    endif()
-    if(PYTHON_VERSION VERSION_EQUAL "3.6" OR PYTHON_VERSION VERSION_GREATER "3.6")
-        list(APPEND LIBPYTHON_TARGET_LIBRARIES shlwapi) # Required by PC/getpathp
-    endif()
-endif()
+# if(WIN32 AND IS_PY3)
+#     list(APPEND LIBPYTHON_TARGET_LIBRARIES ws2_32) # Required by signalmodule
+#     if(PYTHON_VERSION VERSION_EQUAL "3.5" OR PYTHON_VERSION VERSION_GREATER "3.5")
+#         list(APPEND LIBPYTHON_TARGET_LIBRARIES version) # Required by sysmodule
+#     endif()
+#     if(PYTHON_VERSION VERSION_EQUAL "3.6" OR PYTHON_VERSION VERSION_GREATER "3.6")
+#         list(APPEND LIBPYTHON_TARGET_LIBRARIES shlwapi) # Required by PC/getpathp
+#     endif()
+# endif()
 
 set(LIBPYTHON_FROZEN_SOURCES )
-if(IS_PY3)
+# if(IS_PY3)
 
-# Build _freeze_importlib executable
-add_executable(_freeze_importlib
-  ${SRC_DIR}/Programs/_freeze_importlib.c
-  ${LIBPYTHON_OMIT_FROZEN_SOURCES}
-  )
-target_link_libraries(_freeze_importlib ${LIBPYTHON_TARGET_LIBRARIES})
-if(builtin_compile_definitions_without_py_limited_api)
-  target_compile_definitions(_freeze_importlib PUBLIC ${builtin_compile_definitions_without_py_limited_api})
-endif()
+# # Build _freeze_importlib executable
+# add_executable(_freeze_importlib
+#   ${SRC_DIR}/Programs/_freeze_importlib.c
+#   ${LIBPYTHON_OMIT_FROZEN_SOURCES}
+#   )
+# target_link_libraries(_freeze_importlib ${LIBPYTHON_TARGET_LIBRARIES})
+# if(builtin_compile_definitions_without_py_limited_api)
+#   target_compile_definitions(_freeze_importlib PUBLIC ${builtin_compile_definitions_without_py_limited_api})
+# endif()
 
-# Freeze modules
-set(LIBPYTHON_FROZEN_SOURCES
-  ${SRC_DIR}/Python/importlib_external.h
-  ${SRC_DIR}/Python/importlib.h
-)
-add_custom_command(
-  OUTPUT ${LIBPYTHON_FROZEN_SOURCES}
-  COMMAND
-    ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-      ${SRC_DIR}/Lib/importlib/_bootstrap_external.py
-      ${SRC_DIR}/Python/importlib_external.h
-  COMMAND
-    ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-      ${SRC_DIR}/Lib/importlib/_bootstrap.py
-      ${SRC_DIR}/Python/importlib.h
-  DEPENDS
-    _freeze_importlib
-    ${SRC_DIR}/Lib/importlib/_bootstrap_external.py
-    ${SRC_DIR}/Lib/importlib/_bootstrap.py
-)
+# # Freeze modules
+# set(LIBPYTHON_FROZEN_SOURCES
+#   ${SRC_DIR}/Python/importlib_external.h
+#   ${SRC_DIR}/Python/importlib.h
+# )
+# add_custom_command(
+#   OUTPUT ${LIBPYTHON_FROZEN_SOURCES}
+#   COMMAND
+#     ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+#       ${SRC_DIR}/Lib/importlib/_bootstrap_external.py
+#       ${SRC_DIR}/Python/importlib_external.h
+#   COMMAND
+#     ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+#       ${SRC_DIR}/Lib/importlib/_bootstrap.py
+#       ${SRC_DIR}/Python/importlib.h
+#   DEPENDS
+#     _freeze_importlib
+#     ${SRC_DIR}/Lib/importlib/_bootstrap_external.py
+#     ${SRC_DIR}/Lib/importlib/_bootstrap.py
+# )
 
-# This is a convenience target allowing to regenerate
-# the frozen sources.
-add_custom_target(freeze_modules DEPENDS ${LIBPYTHON_FROZEN_SOURCES})
+# # This is a convenience target allowing to regenerate
+# # the frozen sources.
+# add_custom_target(freeze_modules DEPENDS ${LIBPYTHON_FROZEN_SOURCES})
 
-endif()
+# endif()
 
 # Build pgen executable
 set(PGEN2_SOURCES
@@ -518,62 +518,62 @@ if(BUILD_LIBPYTHON_SHARED)
 
     set(targetname "libpython3-shared")
 
-    if(IS_PY3 AND MSVC)
-        # XXX Add BuildPython3_dDef
+    # if(IS_PY3 AND MSVC)
+    #     # XXX Add BuildPython3_dDef
 
-        # Generate 'python3stub.def'
-        set(pythonstub_def ${PROJECT_BINARY_DIR}/${LIBPYTHON_ARCHIVEDIR}/${CMAKE_CFG_INTDIR}/python3stub.def)
-        add_custom_command(
-            OUTPUT ${pythonstub_def}
-            COMMAND ${CMAKE_COMMAND}
-                -DINPUT_DEF_FILE:PATH=${SRC_DIR}/PC/python3.def
-                -DOUTPUT_DEF_FILE:PATH=${PROJECT_BINARY_DIR}/CMakeFiles/python3stub.def
-                -P ${CMAKE_CURRENT_SOURCE_DIR}/generate_libpythonstub_def.cmake
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                ${PROJECT_BINARY_DIR}/CMakeFiles/python3stub.def
-                ${pythonstub_def}
-        )
-        add_custom_target(generate_libpython3stub_def DEPENDS ${pythonstub_def})
+    #     # Generate 'python3stub.def'
+    #     set(pythonstub_def ${PROJECT_BINARY_DIR}/${LIBPYTHON_ARCHIVEDIR}/${CMAKE_CFG_INTDIR}/python3stub.def)
+    #     add_custom_command(
+    #         OUTPUT ${pythonstub_def}
+    #         COMMAND ${CMAKE_COMMAND}
+    #             -DINPUT_DEF_FILE:PATH=${SRC_DIR}/PC/python3.def
+    #             -DOUTPUT_DEF_FILE:PATH=${PROJECT_BINARY_DIR}/CMakeFiles/python3stub.def
+    #             -P ${CMAKE_CURRENT_SOURCE_DIR}/generate_libpythonstub_def.cmake
+    #         COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    #             ${PROJECT_BINARY_DIR}/CMakeFiles/python3stub.def
+    #             ${pythonstub_def}
+    #     )
+    #     add_custom_target(generate_libpython3stub_def DEPENDS ${pythonstub_def})
 
-        # Build 'python3stub.lib' before linking 'python3.dll'
-        set(python3stub_lib ${PROJECT_BINARY_DIR}/${LIBPYTHON_ARCHIVEDIR}/${CMAKE_CFG_INTDIR}/python3stub.lib)
-        set(machine X86)
-        if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-            set(machine X64)
-        endif()
-        add_custom_command(
-            OUTPUT ${python3stub_lib}
-            COMMAND lib /nologo /def:${pythonstub_def} /out:${python3stub_lib} /MACHINE:${machine}
-            COMMENT "Rebuilding python3stub.lib"
-            DEPENDS generate_libpython3stub_def
-            VERBATIM
-        )
-        add_custom_target(generate_libpython3stub_lib DEPENDS ${python3stub_lib})
+    #     # Build 'python3stub.lib' before linking 'python3.dll'
+    #     set(python3stub_lib ${PROJECT_BINARY_DIR}/${LIBPYTHON_ARCHIVEDIR}/${CMAKE_CFG_INTDIR}/python3stub.lib)
+    #     set(machine X86)
+    #     if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+    #         set(machine X64)
+    #     endif()
+    #     add_custom_command(
+    #         OUTPUT ${python3stub_lib}
+    #         COMMAND lib /nologo /def:${pythonstub_def} /out:${python3stub_lib} /MACHINE:${machine}
+    #         COMMENT "Rebuilding python3stub.lib"
+    #         DEPENDS generate_libpython3stub_def
+    #         VERBATIM
+    #     )
+    #     add_custom_target(generate_libpython3stub_lib DEPENDS ${python3stub_lib})
 
-        # Build 'python3.dll'
-        add_library(${targetname} SHARED ${SRC_DIR}/PC/python3dll.c ${SRC_DIR}/PC/python3.def)
-        set_target_properties(${targetname} PROPERTIES
-            OUTPUT_NAME python3
-            LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LIBPYTHON_LIBDIR}
-            RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LIBPYTHON_LIBDIR}
-            INSTALL_NAME_DIR ${CMAKE_INSTALL_PREFIX}/${LIBPYTHON_LIBDIR}
-        )
-        add_dependencies(${targetname} generate_libpython3stub_lib)
+    #     # Build 'python3.dll'
+    #     add_library(${targetname} SHARED ${SRC_DIR}/PC/python3dll.c ${SRC_DIR}/PC/python3.def)
+    #     set_target_properties(${targetname} PROPERTIES
+    #         OUTPUT_NAME python3
+    #         LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LIBPYTHON_LIBDIR}
+    #         RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LIBPYTHON_LIBDIR}
+    #         INSTALL_NAME_DIR ${CMAKE_INSTALL_PREFIX}/${LIBPYTHON_LIBDIR}
+    #     )
+    #     add_dependencies(${targetname} generate_libpython3stub_lib)
 
-        target_link_libraries(${targetname} ${python3stub_lib})
-    endif()
+    #     target_link_libraries(${targetname} ${python3stub_lib})
+    # endif()
 
-    if(IS_PY3 AND UNIX AND NOT APPLE)
-        add_library(${targetname} SHARED ${PROJECT_SOURCE_DIR}/cmake/empty.c)
-        set_target_properties(${targetname} PROPERTIES
-            LINK_FLAGS "-Wl,--no-as-needed"
-            OUTPUT_NAME python3
-            LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LIBPYTHON_LIBDIR}
-            RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LIBPYTHON_LIBDIR}
-            INSTALL_NAME_DIR ${CMAKE_INSTALL_PREFIX}/${LIBPYTHON_LIBDIR}
-        )
-        target_link_libraries(${targetname} libpython-shared)
-    endif()
+    # if(IS_PY3 AND UNIX AND NOT APPLE)
+    #     add_library(${targetname} SHARED ${PROJECT_SOURCE_DIR}/cmake/empty.c)
+    #     set_target_properties(${targetname} PROPERTIES
+    #         LINK_FLAGS "-Wl,--no-as-needed"
+    #         OUTPUT_NAME python3
+    #         LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LIBPYTHON_LIBDIR}
+    #         RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LIBPYTHON_LIBDIR}
+    #         INSTALL_NAME_DIR ${CMAKE_INSTALL_PREFIX}/${LIBPYTHON_LIBDIR}
+    #     )
+    #     target_link_libraries(${targetname} libpython-shared)
+    # endif()
 
     # Export target
     if(TARGET ${targetname})

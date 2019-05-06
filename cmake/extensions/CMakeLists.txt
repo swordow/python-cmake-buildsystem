@@ -104,45 +104,45 @@ add_python_extension(time BUILTIN REQUIRES HAVE_LIBM SOURCES timemodule.c LIBRAR
 add_python_extension(unicodedata SOURCES unicodedata.c)
 
 # Python3
-add_python_extension(atexit BUILTIN REQUIRES IS_PY3 SOURCES atexitmodule.c) # Register functions to be run at interpreter-shutdown
-add_python_extension(_codecs BUILTIN REQUIRES IS_PY3 SOURCES _codecsmodule.c) # access to the builtin codecs and codec registry
-add_python_extension(faulthandler BUILTIN REQUIRES IS_PY3 SOURCES faulthandler.c)
-add_python_extension(_opcode BUILTIN REQUIRES IS_PY3 SOURCES _opcode.c)
-add_python_extension(_operator ${WIN32_BUILTIN} REQUIRES IS_PY3 SOURCES _operator.c)
-add_python_extension(_pickle BUILTIN REQUIRES IS_PY3 SOURCES _pickle.c)
-add_python_extension(_sre BUILTIN REQUIRES IS_PY3 SOURCES _sre.c) # Fredrik Lundh's new regular expressions
-add_python_extension(_stat BUILTIN REQUIRES IS_PY3 SOURCES _stat.c) # stat.h interface
-add_python_extension(_symtable BUILTIN REQUIRES IS_PY3 SOURCES symtablemodule.c)
-# Python PEP-3118 (buffer protocol) test module
-add_python_extension(_testbuffer REQUIRES IS_PY3 SOURCES _testbuffer.c)
-# Test loading multiple modules from one compiled file (http://bugs.python.org/issue16421)
-add_python_extension(_testimportmultiple REQUIRES IS_PY3 SOURCES _testimportmultiple.c)
-# Test multi-phase extension module init (PEP 489)
-add_python_extension(_testmultiphase REQUIRES IS_PY3 SOURCES _testmultiphase.c)
-# debug tool to trace memory blocks allocated by Python
-add_python_extension(_tracemalloc BUILTIN REQUIRES IS_PY3 SOURCES hashtable.c _tracemalloc.c)
-add_python_extension(_weakref BUILTIN REQUIRES IS_PY3 SOURCES _weakref.c)
-math(EXPR _limited_api_version "${PY_VERSION_MAJOR} * 100 + ${PY_VERSION_MINOR}")
-add_python_extension(xxlimited REQUIRES IS_PY3 BUILD_TESTING
-    SOURCES xxlimited.c
-    DEFINITIONS Py_LIMITED_API=0x${_limited_api_version}0000
-    NO_INSTALL
-)
-add_python_extension(xxsubtype BUILTIN REQUIRES IS_PY3 SOURCES xxsubtype.c)
-# The zipimport module is always imported at startup. Having it as a
-# builtin module avoids some bootstrapping problems and reduces overhead.
-add_python_extension(zipimport ALWAYS_BUILTIN REQUIRES IS_PY3 SOURCES zipimport.c)
+# add_python_extension(atexit BUILTIN REQUIRES IS_PY3 SOURCES atexitmodule.c) # Register functions to be run at interpreter-shutdown
+# add_python_extension(_codecs BUILTIN REQUIRES IS_PY3 SOURCES _codecsmodule.c) # access to the builtin codecs and codec registry
+# add_python_extension(faulthandler BUILTIN REQUIRES IS_PY3 SOURCES faulthandler.c)
+# add_python_extension(_opcode BUILTIN REQUIRES IS_PY3 SOURCES _opcode.c)
+# add_python_extension(_operator ${WIN32_BUILTIN} REQUIRES IS_PY3 SOURCES _operator.c)
+# add_python_extension(_pickle BUILTIN REQUIRES IS_PY3 SOURCES _pickle.c)
+# add_python_extension(_sre BUILTIN REQUIRES IS_PY3 SOURCES _sre.c) # Fredrik Lundh's new regular expressions
+# add_python_extension(_stat BUILTIN REQUIRES IS_PY3 SOURCES _stat.c) # stat.h interface
+# add_python_extension(_symtable BUILTIN REQUIRES IS_PY3 SOURCES symtablemodule.c)
+# # Python PEP-3118 (buffer protocol) test module
+# add_python_extension(_testbuffer REQUIRES IS_PY3 SOURCES _testbuffer.c)
+# # Test loading multiple modules from one compiled file (http://bugs.python.org/issue16421)
+# add_python_extension(_testimportmultiple REQUIRES IS_PY3 SOURCES _testimportmultiple.c)
+# # Test multi-phase extension module init (PEP 489)
+# add_python_extension(_testmultiphase REQUIRES IS_PY3 SOURCES _testmultiphase.c)
+# # debug tool to trace memory blocks allocated by Python
+# add_python_extension(_tracemalloc BUILTIN REQUIRES IS_PY3 SOURCES hashtable.c _tracemalloc.c)
+# add_python_extension(_weakref BUILTIN REQUIRES IS_PY3 SOURCES _weakref.c)
+# math(EXPR _limited_api_version "${PY_VERSION_MAJOR} * 100 + ${PY_VERSION_MINOR}")
+# add_python_extension(xxlimited REQUIRES IS_PY3 BUILD_TESTING
+#     SOURCES xxlimited.c
+#     DEFINITIONS Py_LIMITED_API=0x${_limited_api_version}0000
+#     NO_INSTALL
+# )
+# add_python_extension(xxsubtype BUILTIN REQUIRES IS_PY3 SOURCES xxsubtype.c)
+# # The zipimport module is always imported at startup. Having it as a
+# # builtin module avoids some bootstrapping problems and reduces overhead.
+# add_python_extension(zipimport ALWAYS_BUILTIN REQUIRES IS_PY3 SOURCES zipimport.c)
 
 # Python 3.6
-if(PY_VERSION VERSION_EQUAL "3.6" OR PY_VERSION VERSION_GREATER "3.6")
-    set(_blake2_SOURCES
-        _blake2/blake2module.c
-        _blake2/blake2b_impl.c
-        _blake2/blake2s_impl.c
-    )
-    add_python_extension(_blake2 ${WIN32_BUILTIN} SOURCES ${_blake2_SOURCES})
-    add_python_extension(_sha3 ${WIN32_BUILTIN} SOURCES _sha3/sha3module.c)
-endif()
+# if(PY_VERSION VERSION_EQUAL "3.6" OR PY_VERSION VERSION_GREATER "3.6")
+#     set(_blake2_SOURCES
+#         _blake2/blake2module.c
+#         _blake2/blake2b_impl.c
+#         _blake2/blake2s_impl.c
+#     )
+#     add_python_extension(_blake2 ${WIN32_BUILTIN} SOURCES ${_blake2_SOURCES})
+#     add_python_extension(_sha3 ${WIN32_BUILTIN} SOURCES _sha3/sha3module.c)
+# endif()
 
 # UNIX-only extensions
 add_python_extension(fcntl REQUIRES UNIX SOURCES fcntlmodule.c)
@@ -156,8 +156,8 @@ add_python_extension(syslog REQUIRES UNIX SOURCES syslogmodule.c)
 add_python_extension(termios REQUIRES UNIX SOURCES termios.c)
 
 # Python3: UNIX-only extensions
-add_python_extension(errno BUILTIN REQUIRES IS_PY3 UNIX SOURCES errnomodule.c)
-add_python_extension(_posixsubprocess BUILTIN REQUIRES IS_PY3 UNIX SOURCES _posixsubprocess.c)
+# add_python_extension(errno BUILTIN REQUIRES IS_PY3 UNIX SOURCES errnomodule.c)
+# add_python_extension(_posixsubprocess BUILTIN REQUIRES IS_PY3 UNIX SOURCES _posixsubprocess.c)
 
 # MacOSX-only extensions
 set(_scproxy2_SOURCES ${SRC_DIR}/Mac/Modules/_scproxy.c)
@@ -187,19 +187,19 @@ set(winreg3_NAME winreg)
 add_python_extension(${winreg${PY_VERSION_MAJOR}_NAME} REQUIRES WIN32 BUILTIN SOURCES ${SRC_DIR}/PC/${winreg${PY_VERSION_MAJOR}_NAME}.c)
 
 # Python3: Windows-only extensions
-add_python_extension(_overlapped
-    REQUIRES WIN32 IS_PY3
-    SOURCES ${SRC_DIR}/Modules/overlapped.c
-    LIBRARIES ws2_32
-)
-add_python_extension(_winapi REQUIRES WIN32 IS_PY3 BUILTIN SOURCES ${SRC_DIR}/Modules/_winapi.c)
+# add_python_extension(_overlapped
+#     REQUIRES WIN32 IS_PY3
+#     SOURCES ${SRC_DIR}/Modules/overlapped.c
+#     LIBRARIES ws2_32
+# )
+# add_python_extension(_winapi REQUIRES WIN32 IS_PY3 BUILTIN SOURCES ${SRC_DIR}/Modules/_winapi.c)
 
-set(HAS_DISTUTILS_FINDVS_MODULE_SRC 0)
-set(module_src ${SRC_DIR}/PC/_findvs.cpp)
-if(EXISTS ${module_src})
-  set(HAS_DISTUTILS_FINDVS_MODULE_SRC 1)
-endif()
-add_python_extension(_distutils_findvs REQUIRES WIN32 IS_PY3 HAS_DISTUTILS_FINDVS_MODULE_SRC SOURCES ${module_src})
+# set(HAS_DISTUTILS_FINDVS_MODULE_SRC 0)
+# set(module_src ${SRC_DIR}/PC/_findvs.cpp)
+# if(EXISTS ${module_src})
+#   set(HAS_DISTUTILS_FINDVS_MODULE_SRC 1)
+# endif()
+#add_python_extension(_distutils_findvs REQUIRES WIN32 IS_PY3 HAS_DISTUTILS_FINDVS_MODULE_SRC SOURCES ${module_src})
 
 # Multiprocessing is different on unix and windows
 if(UNIX)
@@ -360,126 +360,126 @@ else()
 endif()
 
 # Python3: _decimal
-if(IS_PY3)
+# if(IS_PY3)
 
-set(libmpdec_config_x64          CONFIG_64 ASM)
-set(libmpdec_config_uint128      CONFIG_64 ANSI HAVE_UINT128_T)
-set(libmpdec_config_ansi64       CONFIG_64 ANSI)
-set(libmpdec_config_ppro         CONFIG_32 PPRO ASM)
-set(libmpdec_config_ansi32       CONFIG_32 PPRO) # XXX Is ANSI needed here ?
-set(libmpdec_config_ansi_legacy  CONFIG_32 ANSI LEGACY_COMPILER)
-set(libmpdec_config_universal    UNIVERSAL)
+# set(libmpdec_config_x64          CONFIG_64 ASM)
+# set(libmpdec_config_uint128      CONFIG_64 ANSI HAVE_UINT128_T)
+# set(libmpdec_config_ansi64       CONFIG_64 ANSI)
+# set(libmpdec_config_ppro         CONFIG_32 PPRO ASM)
+# set(libmpdec_config_ansi32       CONFIG_32 PPRO) # XXX Is ANSI needed here ?
+# set(libmpdec_config_ansi_legacy  CONFIG_32 ANSI LEGACY_COMPILER)
+# set(libmpdec_config_universal    UNIVERSAL)
 
-if(USE_SYSTEM_LIBMPDEC)
-    set(_decimal_REQUIRES REQUIRES LIBMPDEC_LIBRARIES)
-    set(_decimal_EXTRA_SOURCES )
-    set(_decimal_INCLUDEDIRS )
-else()
-    set(_decimal_REQUIRES )
-    set(_decimal_EXTRA_SOURCES
-        _decimal/libmpdec/basearith.c
-        _decimal/libmpdec/constants.c
-        _decimal/libmpdec/context.c
-        _decimal/libmpdec/convolute.c
-        _decimal/libmpdec/crt.c
-        _decimal/libmpdec/difradix2.c
-        _decimal/libmpdec/fnt.c
-        _decimal/libmpdec/fourstep.c
-        _decimal/libmpdec/io.c
-        _decimal/libmpdec/memory.c
-        _decimal/libmpdec/mpdecimal.c
-        _decimal/libmpdec/numbertheory.c
-        _decimal/libmpdec/sixstep.c
-        _decimal/libmpdec/transpose.c
-    )
-    if(WIN32)
-        if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-            enable_language(ASM_MASM)
-            list(APPEND _decimal_EXTRA_SOURCES
-                _decimal/libmpdec/vcdiv64.asm
-            )
-        endif()
-    endif()
-    set(_decimal_INCLUDEDIRS INCLUDEDIRS ${SRC_DIR}/Modules/_decimal/libmpdec)
-endif()
-set(libmpdec_config )
-set(_decimal_compile_flags )
-if(APPLE)
-    # Universal here means: build with the same options Python
-    # was built with.
-    set(libmpdec_config universal)
-elseif(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-    if(HAVE_GCC_ASM_FOR_X64)
-        set(libmpdec_config x64)
-    elseif(HAVE_GCC_UINT128_T)
-        set(libmpdec_config uint128)
-    else()
-        set(libmpdec_config ansi64)
-    endif()
-elseif(${CMAKE_SIZEOF_VOID_P} EQUAL 4)
-    if(HAVE_GCC_ASM_FOR_X87 AND
-        (CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
-        AND NOT CMAKE_SYSTEM MATCHES SunOS
-    )
-        # solaris: problems with register allocation.
-        # icc >= 11.0 works as well.
-        set(libmpdec_config ppro)
-        list(APPEND _decimal_compile_flags "-Wno-unknown-pragmas")
-    else()
-      set(libmpdec_config ansi32)
-    endif()
-else()
-    message(FATAL_ERROR "extension_decimal: unsupported architecture")
-endif()
+# if(USE_SYSTEM_LIBMPDEC)
+#     set(_decimal_REQUIRES REQUIRES LIBMPDEC_LIBRARIES)
+#     set(_decimal_EXTRA_SOURCES )
+#     set(_decimal_INCLUDEDIRS )
+# else()
+#     set(_decimal_REQUIRES )
+#     set(_decimal_EXTRA_SOURCES
+#         _decimal/libmpdec/basearith.c
+#         _decimal/libmpdec/constants.c
+#         _decimal/libmpdec/context.c
+#         _decimal/libmpdec/convolute.c
+#         _decimal/libmpdec/crt.c
+#         _decimal/libmpdec/difradix2.c
+#         _decimal/libmpdec/fnt.c
+#         _decimal/libmpdec/fourstep.c
+#         _decimal/libmpdec/io.c
+#         _decimal/libmpdec/memory.c
+#         _decimal/libmpdec/mpdecimal.c
+#         _decimal/libmpdec/numbertheory.c
+#         _decimal/libmpdec/sixstep.c
+#         _decimal/libmpdec/transpose.c
+#     )
+#     if(WIN32)
+#         if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+#             enable_language(ASM_MASM)
+#             list(APPEND _decimal_EXTRA_SOURCES
+#                 _decimal/libmpdec/vcdiv64.asm
+#             )
+#         endif()
+#     endif()
+#     set(_decimal_INCLUDEDIRS INCLUDEDIRS ${SRC_DIR}/Modules/_decimal/libmpdec)
+# endif()
+# set(libmpdec_config )
+# set(_decimal_compile_flags )
+# if(APPLE)
+#     # Universal here means: build with the same options Python
+#     # was built with.
+#     set(libmpdec_config universal)
+# elseif(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+#     if(HAVE_GCC_ASM_FOR_X64)
+#         set(libmpdec_config x64)
+#     elseif(HAVE_GCC_UINT128_T)
+#         set(libmpdec_config uint128)
+#     else()
+#         set(libmpdec_config ansi64)
+#     endif()
+# elseif(${CMAKE_SIZEOF_VOID_P} EQUAL 4)
+#     if(HAVE_GCC_ASM_FOR_X87 AND
+#         (CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
+#         AND NOT CMAKE_SYSTEM MATCHES SunOS
+#     )
+#         # solaris: problems with register allocation.
+#         # icc >= 11.0 works as well.
+#         set(libmpdec_config ppro)
+#         list(APPEND _decimal_compile_flags "-Wno-unknown-pragmas")
+#     else()
+#       set(libmpdec_config ansi32)
+#     endif()
+# else()
+#     message(FATAL_ERROR "extension_decimal: unsupported architecture")
+# endif()
 
-# Workarounds for toolchain bugs:
-if(HAVE_IPA_PURE_CONST_BUG)
-    # Some versions of gcc miscompile inline asm:
-    # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46491
-    # http://gcc.gnu.org/ml/gcc/2010-11/msg00366.html
-    list(APPEND _decimal_compile_flags "-fno-ipa-pure-const")
-endif()
-if(HAVE_GLIBC_MEMMOVE_BUG)
-    # _FORTIFY_SOURCE wrappers for memmove and bcopy are incorrect:
-    # http://sourceware.org/ml/libc-alpha/2010-12/msg00009.html
-    # XXX Implement missing logic
-#    undef_macros.append('_FORTIFY_SOURCE')
-endif()
+# # Workarounds for toolchain bugs:
+# if(HAVE_IPA_PURE_CONST_BUG)
+#     # Some versions of gcc miscompile inline asm:
+#     # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46491
+#     # http://gcc.gnu.org/ml/gcc/2010-11/msg00366.html
+#     list(APPEND _decimal_compile_flags "-fno-ipa-pure-const")
+# endif()
+# if(HAVE_GLIBC_MEMMOVE_BUG)
+#     # _FORTIFY_SOURCE wrappers for memmove and bcopy are incorrect:
+#     # http://sourceware.org/ml/libc-alpha/2010-12/msg00009.html
+#     # XXX Implement missing logic
+# #    undef_macros.append('_FORTIFY_SOURCE')
+# endif()
 
-if(NOT WITH_THREAD)
-    # Faster version without thread local contexts:
-    list(APPEND libmpdec_config_${libmpdec_config}
-        WITHOUT_THREADS
-    )
-endif()
+# if(NOT WITH_THREAD)
+#     # Faster version without thread local contexts:
+#     list(APPEND libmpdec_config_${libmpdec_config}
+#         WITHOUT_THREADS
+#     )
+# endif()
 
-if(WIN32)
-    list(APPEND libmpdec_config_${libmpdec_config}
-        _CRT_SECURE_NO_WARNINGS MASM
-    )
-endif()
+# if(WIN32)
+#     list(APPEND libmpdec_config_${libmpdec_config}
+#         _CRT_SECURE_NO_WARNINGS MASM
+#     )
+# endif()
 
-# Uncomment for extra functionality:
-#list(APPEND libmpdec_config_${libmpdec_config} EXTRA_FUNCTIONALITY)
+# # Uncomment for extra functionality:
+# #list(APPEND libmpdec_config_${libmpdec_config} EXTRA_FUNCTIONALITY)
 
-if(ENABLE_DECIMAL)
-    message(STATUS "extension_decimal: libmpdec_config [${libmpdec_config}]")
-endif()
-add_python_extension(_decimal
-    SOURCES
-        _decimal/_decimal.c
-        _decimal/docstrings.h
-        ${_decimal_EXTRA_SOURCES}
-    DEFINITIONS ${libmpdec_config_${libmpdec_config}}
-    ${_decimal_REQUIRES}
-    ${_decimal_LIBRARIES}
-    ${_decimal_INCLUDEDIRS}
-)
-if(_decimal_compile_flags AND NOT BUILTIN_DECIMAL)
-    set_target_properties(extension_decimal PROPERTIES COMPILE_FLAGS ${_decimal_compile_flags})
-endif()
+# if(ENABLE_DECIMAL)
+#     message(STATUS "extension_decimal: libmpdec_config [${libmpdec_config}]")
+# endif()
+# add_python_extension(_decimal
+#     SOURCES
+#         _decimal/_decimal.c
+#         _decimal/docstrings.h
+#         ${_decimal_EXTRA_SOURCES}
+#     DEFINITIONS ${libmpdec_config_${libmpdec_config}}
+#     ${_decimal_REQUIRES}
+#     ${_decimal_LIBRARIES}
+#     ${_decimal_INCLUDEDIRS}
+# )
+# if(_decimal_compile_flags AND NOT BUILTIN_DECIMAL)
+#     set_target_properties(extension_decimal PROPERTIES COMPILE_FLAGS ${_decimal_compile_flags})
+# endif()
 
-endif()
+# endif()
 
 # Build expat using the system expat if it's installed, otherwise use the
 # builtin version.
@@ -604,34 +604,35 @@ add_python_extension(_curses
     SOURCES _cursesmodule.c
     LIBRARIES ${curses_common_LIBRARIES}
 )
-set(dbm2_SOURCES dbmmodule.c)
-set(dbm3_SOURCES _dbmmodule.c)
-if(IS_PY3)
-  set(dbm_name _dbm)
-else()
-  set(dbm_name dbm)
-endif()
-add_python_extension(${dbm_name}
-    REQUIRES NDBM_TAG GDBM_LIBRARY GDBM_COMPAT_LIBRARY
-    SOURCES ${dbm${PY_VERSION_MAJOR}_SOURCES}
-    DEFINITIONS HAVE_${NDBM_TAG}_H
-    LIBRARIES ${GDBM_LIBRARY} ${GDBM_COMPAT_LIBRARY}
-    INCLUDEDIRS ${${NDBM_TAG}_INCLUDE_PATH}
-)
-set(gdbm2_SOURCES gdbmmodule.c)
-set(gdbm3_SOURCES _gdbmmodule.c)
-if(IS_PY3)
-  set(gdbm_name _gdbm)
-else()
-  set(gdbm_name gdbm)
-endif()
-add_python_extension(${gdbm_name}
-    REQUIRES GDBM_INCLUDE_PATH GDBM_LIBRARY GDBM_COMPAT_LIBRARY
-    SOURCES ${gdbm${PY_VERSION_MAJOR}_SOURCES}
-    DEFINITIONS HAVE_GDBM_DASH_NDBM_H
-    LIBRARIES ${GDBM_LIBRARY}
-    INCLUDEDIRS ${GDBM_INCLUDE_PATH}
-)
+# DBM is removed from TPY...
+# set(dbm2_SOURCES dbmmodule.c)
+# set(dbm3_SOURCES _dbmmodule.c)
+# if(IS_PY3)
+#   set(dbm_name _dbm)
+# else()
+#   set(dbm_name dbm)
+# endif()
+# add_python_extension(${dbm_name}
+#     REQUIRES NDBM_TAG GDBM_LIBRARY GDBM_COMPAT_LIBRARY
+#     SOURCES ${dbm${PY_VERSION_MAJOR}_SOURCES}
+#     DEFINITIONS HAVE_${NDBM_TAG}_H
+#     LIBRARIES ${GDBM_LIBRARY} ${GDBM_COMPAT_LIBRARY}
+#     INCLUDEDIRS ${${NDBM_TAG}_INCLUDE_PATH}
+# )
+# set(gdbm2_SOURCES gdbmmodule.c)
+# set(gdbm3_SOURCES _gdbmmodule.c)
+# if(IS_PY3)
+#   set(gdbm_name _gdbm)
+# else()
+#   set(gdbm_name gdbm)
+# endif()
+# add_python_extension(${gdbm_name}
+#     REQUIRES GDBM_INCLUDE_PATH GDBM_LIBRARY GDBM_COMPAT_LIBRARY
+#     SOURCES ${gdbm${PY_VERSION_MAJOR}_SOURCES}
+#     DEFINITIONS HAVE_GDBM_DASH_NDBM_H
+#     LIBRARIES ${GDBM_LIBRARY}
+#     INCLUDEDIRS ${GDBM_INCLUDE_PATH}
+# )
 add_python_extension(_hashlib
     REQUIRES OPENSSL_INCLUDE_DIR OPENSSL_LIBRARIES
     SOURCES _hashopenssl.c
