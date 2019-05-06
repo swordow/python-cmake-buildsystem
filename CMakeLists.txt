@@ -270,17 +270,17 @@ string(REGEX REPLACE "[0-9]\\.[0-9]+\\.([0-9]+)[+]?" "\\1"
     PY_VERSION_PATCH ${_version})
 set(PY_VERSION "${PY_VERSION_MAJOR}.${PY_VERSION_MINOR}.${PY_VERSION_PATCH}")
 message(STATUS "PY_VERSION: ${PY_VERSION}")
-if(NOT DEFINED _download_${PY_VERSION}_md5)
-    message(WARNING "warning: selected python version '${PY_VERSION}' is not tested. Tested versions match '2.7.[3-14]' or '3.5.[1-5]' or `3.6.[0-4]`")
-endif()
+# if(NOT DEFINED _download_${PY_VERSION}_md5)
+#     message(WARNING "warning: selected python version '${PY_VERSION}' is not tested. Tested versions match '2.7.[3-14]' or '3.5.[1-5]' or `3.6.[0-4]`")
+# endif()
 
 set(PYTHON_VERSION "${PY_VERSION}" CACHE STRING "The version of Python to build." FORCE)
 
 # Apply patches
-option(PYTHON_APPLY_PATCHES "Apply patches" ON)
-if(PYTHON_APPLY_PATCHES)
-  include(cmake/PythonApplyPatches.cmake)
-endif()
+# option(PYTHON_APPLY_PATCHES "Apply patches" ON)
+# if(PYTHON_APPLY_PATCHES)
+#   include(cmake/PythonApplyPatches.cmake)
+# endif()
 
 # Convenience boolean variables to easily test python version
 #set(IS_PY3 0)
@@ -497,10 +497,10 @@ add_custom_target(generate_graminit
         ${SRC_DIR}/Include/graminit.h
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${PROJECT_BINARY_DIR}/CMakeFiles/graminit.c
-        ${SRC_DIR}/Python/graminit.c
+        ${SRC_DIR}/PythonCore/graminit.c
     DEPENDS pgen
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
-    COMMENT "Generating '${SRC_DIR}/Include/graminit.h' and '${SRC_DIR}/Python/graminit.c'."
+    COMMENT "Generating '${SRC_DIR}/Include/graminit.h' and '${SRC_DIR}/PythonCore/graminit.c'."
     VERBATIM
 )
 
@@ -536,26 +536,26 @@ add_custom_target(generate_python_ast_c
         ${SRC_DIR}/Parser/Python.asdl
     DEPENDS python
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
-    COMMENT "Generating '${SRC_DIR}/Python/Python-ast.c'"
+    COMMENT "Generating '${SRC_DIR}/PythonCore/Python-ast.c'"
     VERBATIM
 )
 
 # If needed, copy 'asdl.py' and 'Python.asdl' into build directory so that 'test_asdl_parser' passes.
-set(_asdl_subdir ${LIBDIR})
-if(WIN32)
-  set(_asdl_subdir )
-endif()
-file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/${LIBDIR}/Parser)
-configure_file(
-    ${SRC_DIR}/Parser/Python.asdl
-    ${PROJECT_BINARY_DIR}/${_asdl_subdir}/Parser/Python.asdl
-    COPYONLY
-)
-configure_file(
-    ${SRC_DIR}/Parser/asdl.py
-    ${PROJECT_BINARY_DIR}/${_asdl_subdir}/Parser/asdl.py
-    COPYONLY
-)
+# set(_asdl_subdir ${LIBDIR})
+# if(WIN32)
+#   set(_asdl_subdir )
+# endif()
+# file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/${LIBDIR}/Parser)
+# configure_file(
+#     ${SRC_DIR}/Parser/Python.asdl
+#     ${PROJECT_BINARY_DIR}/${_asdl_subdir}/Parser/Python.asdl
+#     COPYONLY
+# )
+# configure_file(
+#     ${SRC_DIR}/Parser/asdl.tpy
+#     ${PROJECT_BINARY_DIR}/${_asdl_subdir}/Parser/asdl.tpy
+#     COPYONLY
+# )
 
 show_extension_summary()
 

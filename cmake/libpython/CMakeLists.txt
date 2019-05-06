@@ -75,7 +75,7 @@ set(PARSER_COMMON_SOURCES # Equivalent to POBJS in Makefile.pre
     ${SRC_DIR}/Parser/metagrammar.c
     ${SRC_DIR}/Parser/node.c
     ${SRC_DIR}/Parser/parser.c
-    ${SRC_DIR}/Parser/pgen.c
+    #${SRC_DIR}/Parser/pgen.c
 )
 
 set(OBJECT2_SOURCES
@@ -154,11 +154,11 @@ set(DYNLOAD_SOURCES
 
 if(UNIX AND HAVE_DLOPEN)
     list(APPEND DYNLOAD_SOURCES
-        ${SRC_DIR}/Python/dynload_shlib.c
+        ${SRC_DIR}/PythonCore/dynload_shlib.c
     )
     # if(IS_PY3)
     # set_property(
-    #     SOURCE ${SRC_DIR}/Python/dynload_shlib.c
+    #     SOURCE ${SRC_DIR}/PythonCore/dynload_shlib.c
     #     PROPERTY COMPILE_DEFINITIONS
     #         SOABI="${SOABI}"
     #     )
@@ -166,7 +166,7 @@ if(UNIX AND HAVE_DLOPEN)
 elseif(WIN32)
     list(APPEND DYNLOAD_SOURCES
         ${SRC_DIR}/PC/dl_nt.c
-        ${SRC_DIR}/Python/dynload_win.c
+        ${SRC_DIR}/PythonCore/dynload_win.c
         )
     set(ms_dll_id "${PY_VERSION_MAJOR}.${PY_VERSION_MINOR}")
     if(${CMAKE_SIZEOF_VOID_P} EQUAL 4)
@@ -183,13 +183,13 @@ endif()
 set(THREAD_SOURCES )
 if(WITH_THREAD)
     list(APPEND THREAD_SOURCES
-        ${SRC_DIR}/Python/thread.c
+        ${SRC_DIR}/PythonCore/thread.c
     )
 endif()
 
 set(PYTHON2_COMMON_SOURCES
-    ${SRC_DIR}/Python/formatter_string.c
-    ${SRC_DIR}/Python/pystrtod.c
+    ${SRC_DIR}/PythonCore/formatter_string.c
+    ${SRC_DIR}/PythonCore/pystrtod.c
 )
 if(WIN32)
     list(APPEND PYTHON2_COMMON_SOURCES
@@ -198,77 +198,77 @@ if(WIN32)
 endif()
 
 set(PYTHON3_COMMON_SOURCES
-    ${SRC_DIR}/Python/dynamic_annotations.c
-    ${SRC_DIR}/Python/fileutils.c
-    ${SRC_DIR}/Python/pyhash.c
-    ${SRC_DIR}/Python/pylifecycle.c
-    ${SRC_DIR}/Python/pystrhex.c
-    ${SRC_DIR}/Python/pystrtod.c
-    ${SRC_DIR}/Python/pytime.c
+    ${SRC_DIR}/PythonCore/dynamic_annotations.c
+    ${SRC_DIR}/PythonCore/fileutils.c
+    ${SRC_DIR}/PythonCore/pyhash.c
+    ${SRC_DIR}/PythonCore/pylifecycle.c
+    ${SRC_DIR}/PythonCore/pystrhex.c
+    ${SRC_DIR}/PythonCore/pystrtod.c
+    ${SRC_DIR}/PythonCore/pytime.c
 )
 
 set(PYTHON_COMMON_SOURCES
     ${DYNLOAD_SOURCES}
     ${PYTHON${PY_VERSION_MAJOR}_COMMON_SOURCES}
     ${THREAD_SOURCES}
-    ${SRC_DIR}/Python/asdl.c
-    ${SRC_DIR}/Python/ast.c
-    ${SRC_DIR}/Python/bltinmodule.c
-    ${SRC_DIR}/Python/ceval.c
-    ${SRC_DIR}/Python/codecs.c
-    ${SRC_DIR}/Python/compile.c
-    ${SRC_DIR}/Python/dtoa.c
-    ${SRC_DIR}/Python/errors.c
-    ${SRC_DIR}/Python/formatter_unicode.c
-    ${SRC_DIR}/Python/future.c
-    ${SRC_DIR}/Python/getargs.c
-    ${SRC_DIR}/Python/getcompiler.c
-    ${SRC_DIR}/Python/getcopyright.c
-    ${SRC_DIR}/Python/getopt.c
-    ${SRC_DIR}/Python/getplatform.c
-    ${SRC_DIR}/Python/getversion.c
-    ${SRC_DIR}/Python/graminit.c
-    ${SRC_DIR}/Python/import.c
-    ${SRC_DIR}/Python/importdl.c
-    ${SRC_DIR}/Python/marshal.c
-    ${SRC_DIR}/Python/modsupport.c
-    ${SRC_DIR}/Python/mysnprintf.c
-    ${SRC_DIR}/Python/mystrtoul.c
-    ${SRC_DIR}/Python/peephole.c
-    ${SRC_DIR}/Python/pyarena.c
-    ${SRC_DIR}/Python/pyctype.c
-    ${SRC_DIR}/Python/pyfpe.c
-    ${SRC_DIR}/Python/pymath.c
-    ${SRC_DIR}/Python/pystate.c
-    ${SRC_DIR}/Python/pystrcmp.c
-    ${SRC_DIR}/Python/Python-ast.c
-    ${SRC_DIR}/Python/pythonrun.c
-    ${SRC_DIR}/Python/random.c
-    ${SRC_DIR}/Python/structmember.c
-    ${SRC_DIR}/Python/symtable.c
-    ${SRC_DIR}/Python/sysmodule.c
-    ${SRC_DIR}/Python/traceback.c
-    ${SRC_DIR}/Python/_warnings.c
+    ${SRC_DIR}/PythonCore/asdl.c
+    ${SRC_DIR}/PythonCore/ast.c
+    ${SRC_DIR}/PythonCore/bltinmodule.c
+    ${SRC_DIR}/PythonCore/ceval.c
+    ${SRC_DIR}/PythonCore/codecs.c
+    ${SRC_DIR}/PythonCore/compile.c
+    ${SRC_DIR}/PythonCore/dtoa.c
+    ${SRC_DIR}/PythonCore/errors.c
+    ${SRC_DIR}/PythonCore/formatter_unicode.c
+    ${SRC_DIR}/PythonCore/future.c
+    ${SRC_DIR}/PythonCore/getargs.c
+    ${SRC_DIR}/PythonCore/getcompiler.c
+    ${SRC_DIR}/PythonCore/getcopyright.c
+    ${SRC_DIR}/PythonCore/getopt.c
+    ${SRC_DIR}/PythonCore/getplatform.c
+    ${SRC_DIR}/PythonCore/getversion.c
+    ${SRC_DIR}/PythonCore/graminit.c
+    ${SRC_DIR}/PythonCore/import.c
+    ${SRC_DIR}/PythonCore/importdl.c
+    ${SRC_DIR}/PythonCore/marshal.c
+    ${SRC_DIR}/PythonCore/modsupport.c
+    ${SRC_DIR}/PythonCore/mysnprintf.c
+    ${SRC_DIR}/PythonCore/mystrtoul.c
+    ${SRC_DIR}/PythonCore/peephole.c
+    ${SRC_DIR}/PythonCore/pyarena.c
+    ${SRC_DIR}/PythonCore/pyctype.c
+    ${SRC_DIR}/PythonCore/pyfpe.c
+    ${SRC_DIR}/PythonCore/pymath.c
+    ${SRC_DIR}/PythonCore/pystate.c
+    ${SRC_DIR}/PythonCore/pystrcmp.c
+    ${SRC_DIR}/PythonCore/Python-ast.c
+    ${SRC_DIR}/PythonCore/pythonrun.c
+    ${SRC_DIR}/PythonCore/random.c
+    ${SRC_DIR}/PythonCore/structmember.c
+    ${SRC_DIR}/PythonCore/symtable.c
+    ${SRC_DIR}/PythonCore/sysmodule.c
+    ${SRC_DIR}/PythonCore/traceback.c
+    ${SRC_DIR}/PythonCore/_warnings.c
 )
 if(UNIX)
     list(APPEND PYTHON_COMMON_SOURCES
-        ${SRC_DIR}/Python/frozenmain.c
+        ${SRC_DIR}/PythonCore/frozenmain.c
     )
 else()
     list(APPEND PYTHON_COMMON_SOURCES
-        ${SRC_DIR}/Python/frozen.c
+        ${SRC_DIR}/PythonCore/frozen.c
     )
 endif()
 
 if(UNIX OR MINGW)
     set_property(
-        SOURCE ${SRC_DIR}/Python/getplatform.c
+        SOURCE ${SRC_DIR}/PythonCore/getplatform.c
         PROPERTY COMPILE_DEFINITIONS
             PLATFORM="${PY_PLATFORM}"
     )
     # if(IS_PY3)
     # set_property(
-    #     SOURCE ${SRC_DIR}/Python/sysmodule.c
+    #     SOURCE ${SRC_DIR}/PythonCore/sysmodule.c
     #     PROPERTY COMPILE_DEFINITIONS
     #         ABIFLAGS="${ABIFLAGS}"
     #     )
@@ -406,19 +406,19 @@ set(LIBPYTHON_FROZEN_SOURCES )
 
 # # Freeze modules
 # set(LIBPYTHON_FROZEN_SOURCES
-#   ${SRC_DIR}/Python/importlib_external.h
-#   ${SRC_DIR}/Python/importlib.h
+#   ${SRC_DIR}/PythonCore/importlib_external.h
+#   ${SRC_DIR}/PythonCore/importlib.h
 # )
 # add_custom_command(
 #   OUTPUT ${LIBPYTHON_FROZEN_SOURCES}
 #   COMMAND
 #     ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
 #       ${SRC_DIR}/Lib/importlib/_bootstrap_external.py
-#       ${SRC_DIR}/Python/importlib_external.h
+#       ${SRC_DIR}/PythonCore/importlib_external.h
 #   COMMAND
 #     ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
 #       ${SRC_DIR}/Lib/importlib/_bootstrap.py
-#       ${SRC_DIR}/Python/importlib.h
+#       ${SRC_DIR}/PythonCore/importlib.h
 #   DEPENDS
 #     _freeze_importlib
 #     ${SRC_DIR}/Lib/importlib/_bootstrap_external.py
@@ -436,21 +436,22 @@ set(PGEN2_SOURCES
     ${SRC_DIR}/Parser/parsetok.c
 )
 set(PGEN3_SOURCES
-    ${SRC_DIR}/Python/dynamic_annotations.c
+    ${SRC_DIR}/PythonCore/dynamic_annotations.c
     ${SRC_DIR}/Parser/parsetok_pgen.c
 )
 add_executable(pgen
     ${PARSER_COMMON_SOURCES}
     ${PGEN${PY_VERSION_MAJOR}_SOURCES}
     ${SRC_DIR}/Objects/obmalloc.c
-    ${SRC_DIR}/Python/mysnprintf.c
-    ${SRC_DIR}/Python/pyctype.c
-    ${SRC_DIR}/Parser/tokenizer_pgen.c
+    ${SRC_DIR}/PythonCore/mysnprintf.c
+    ${SRC_DIR}/PythonCore/pyctype.c
+    ${SRC_DIR}/Parser/tokenizer.c
     ${SRC_DIR}/Parser/printgrammar.c
-    ${SRC_DIR}/Parser/pgenmain.c
+    ${SRC_DIR}/ParserGenerator/pgenmain.c
+    ${SRC_DIR}/ParserGenerator/pgen.c
 )
 if(builtin_compile_definitions_without_py_limited_api)
-  target_compile_definitions(pgen PUBLIC ${builtin_compile_definitions_without_py_limited_api})
+  target_compile_definitions(pgen PUBLIC ${builtin_compile_definitions_without_py_limited_api} -DPGEN)
 endif()
 
 # Collect libpython sources
@@ -460,7 +461,7 @@ set(LIBPYTHON_SOURCES
 )
 if(UNIX)
     list(APPEND LIBPYTHON_SOURCES
-        ${SRC_DIR}/Python/frozen.c
+        ${SRC_DIR}/PythonCore/frozen.c
     )
 endif()
 
@@ -508,7 +509,7 @@ if(BUILD_LIBPYTHON_SHARED)
     )
     if(APPLE)
         # HACK For python <= 2.7.3, this fix link error related to undefined _environ symbol and
-        #      is equivalent to solution implemented in commit http://hg.python.org/cpython/rev/864b983
+        #      is equivalent to solution implemented in commit http://hg.python.org/cPythonCore/rev/864b983
         #      The property is set here because source file properties can't be in one directory
         #      and used to build a target in an other directory.
         set_property(
