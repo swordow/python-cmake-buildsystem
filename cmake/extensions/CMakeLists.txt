@@ -41,7 +41,7 @@ add_python_extension(_codecs_iso2022 ${WIN32_BUILTIN} SOURCES cjkcodecs/_codecs_
 add_python_extension(_codecs_jp ${WIN32_BUILTIN} SOURCES cjkcodecs/_codecs_jp.c)
 add_python_extension(_codecs_kr ${WIN32_BUILTIN} SOURCES cjkcodecs/_codecs_kr.c)
 add_python_extension(_codecs_tw ${WIN32_BUILTIN} SOURCES cjkcodecs/_codecs_tw.c)
-add_python_extension(_collections ALWAYS_BUILTIN SOURCES _collectionsmodule.c) # Container types
+add_python_extension(_collections ALWAYS_BUILTIN SOURCES common/_collectionsmodule.c) # Container types
 add_python_extension(cPickle ${WIN32_BUILTIN}  SOURCES cPickle.c)
 set(crypt2_NAME crypt)
 set(crypt2_SOURCES cryptmodule.c)
@@ -49,14 +49,14 @@ set(crypt3_NAME _crypt)
 set(crypt3_SOURCES _cryptmodule.c)
 add_python_extension(${crypt${PY_VERSION_MAJOR}_NAME} REQUIRES HAVE_LIBCRYPT SOURCES ${crypt${PY_VERSION_MAJOR}_SOURCES} LIBRARIES ${HAVE_LIBCRYPT})
 add_python_extension(cStringIO ${WIN32_BUILTIN} REQUIRES IS_PY2 SOURCES cStringIO.c)
-add_python_extension(_csv ${WIN32_BUILTIN} SOURCES _csv.c)
+add_python_extension(_csv ${WIN32_BUILTIN} SOURCES dataparser/_csv.c)
 add_python_extension(_ctypes_test SOURCES _ctypes/_ctypes_test.c)
 set(datetime2_NAME datetime)
 set(datetime2_SOURCES time/datetimemodule.c)
-set(datetime3_NAME _datetime)
-set(datetime3_SOURCES _datetimemodule.c)
+# set(datetime3_NAME _datetime)
+# set(datetime3_SOURCES _datetimemodule.c)
 if(UNIX)
-  list(APPEND datetime${PY_VERSION_MAJOR}_SOURCES timemodule.c)
+  list(APPEND datetime${PY_VERSION_MAJOR}_SOURCES time/timemodule.c)
 endif()
 add_python_extension(${datetime${PY_VERSION_MAJOR}_NAME} ${WIN32_BUILTIN} REQUIRES HAVE_LIBM BUILTIN SOURCES ${datetime${PY_VERSION_MAJOR}_SOURCES} LIBRARIES ${M_LIBRARIES})
 #if(ENABLE_DATETIME AND CMAKE_C_COMPILER_ID MATCHES GNU)
@@ -64,8 +64,8 @@ add_python_extension(${datetime${PY_VERSION_MAJOR}_NAME} ${WIN32_BUILTIN} REQUIR
 #endif()
 add_python_extension(_functools ${WIN32_BUILTIN} SOURCES _functoolsmodule.c) # Tools for working with functions and callable objects
 add_python_extension(future_builtins ${WIN32_BUILTIN} REQUIRES IS_PY2 SOURCES future_builtins.c)
-add_python_extension(_heapq ${WIN32_BUILTIN} SOURCES _heapqmodule.c)
-add_python_extension(_hotshot ${WIN32_BUILTIN} REQUIRES IS_PY2 SOURCES _hotshot.c)
+add_python_extension(_heapq ${WIN32_BUILTIN} SOURCES common/_heapqmodule.c)
+add_python_extension(_hotshot ${WIN32_BUILTIN} REQUIRES IS_PY2 SOURCES profiler/_hotshot.c)
 
 set(_io_SOURCES
     _io/_iomodule.c
@@ -84,24 +84,25 @@ endif()
 add_python_extension(_io BUILTIN SOURCES ${_io_SOURCES})
 
 add_python_extension(itertools ${WIN32_BUILTIN} SOURCES itertoolsmodule.c) # Functions creating iterators for efficient looping
-add_python_extension(_json ${WIN32_BUILTIN} SOURCES _json.c)
+add_python_extension(_json ${WIN32_BUILTIN} SOURCES dataparser/_json.c)
 add_python_extension(_locale ${WIN32_BUILTIN} SOURCES _localemodule.c) # access to ISO C locale support
-add_python_extension(_lsprof ${WIN32_BUILTIN} SOURCES _lsprof.c rotatingtree.c)
-add_python_extension(math ${WIN32_BUILTIN} SOURCES _math.c mathmodule.c)
-add_python_extension(mmap ${WIN32_BUILTIN} SOURCES mmapmodule.c)
+add_python_extension(_lsprof ${WIN32_BUILTIN} SOURCES profiler/_lsprof.c common/rotatingtree.c)
+add_python_extension(math ${WIN32_BUILTIN} SOURCES math/_math.c math/mathmodule.c)
+#add_python_extension(mmap ${WIN32_BUILTIN} SOURCES mmapmodule.c)
 add_python_extension(_multibytecodec ${WIN32_BUILTIN} SOURCES cjkcodecs/multibytecodec.c)
-add_python_extension(operator ${WIN32_BUILTIN} REQUIRES IS_PY2 SOURCES operator.c)
-add_python_extension(parser ${WIN32_BUILTIN} SOURCES parsermodule.c)
-add_python_extension(_random ${WIN32_BUILTIN} SOURCES _randommodule.c)
-add_python_extension(strop ${WIN32_BUILTIN} REQUIRES IS_PY2 SOURCES stropmodule.c)
+add_python_extension(operator ${WIN32_BUILTIN} SOURCES operator.c)
+add_python_extension(parser ${WIN32_BUILTIN} SOURCES parser/parsermodule.c)
+add_python_extension(_random ${WIN32_BUILTIN} SOURCES math/_randommodule.c)
+add_python_extension(strop ${WIN32_BUILTIN}  SOURCES stropmodule.c)
 add_python_extension(_struct ${WIN32_BUILTIN} SOURCES _struct.c)
-add_python_extension(_testcapi SOURCES _testcapimodule.c)
-set(thread2_NAME thread)
-set(thread3_NAME _thread)
-set(thread2_SOURCES ${SRC_DIR}/Modules/threadmodule.c)
-set(thread3_SOURCES ${SRC_DIR}/Modules/_threadmodule.c)
-add_python_extension(${thread${PY_VERSION_MAJOR}_NAME} BUILTIN REQUIRES WITH_THREAD SOURCES ${thread${PY_VERSION_MAJOR}_SOURCES})
-add_python_extension(time BUILTIN REQUIRES HAVE_LIBM SOURCES timemodule.c LIBRARIES ${M_LIBRARIES} ${TIMEMODULE_LIB})
+add_python_extension(_testcapi SOURCES test/_testcapimodule.c)
+# thread is removed from tpy....
+#set(thread2_NAME thread)
+#set(thread3_NAME _thread)
+#set(thread2_SOURCES ${SRC_DIR}/Modules/threadmodule.c)
+#set(thread3_SOURCES ${SRC_DIR}/Modules/_threadmodule.c)
+#add_python_extension(${thread${PY_VERSION_MAJOR}_NAME} BUILTIN REQUIRES WITH_THREAD SOURCES ${thread${PY_VERSION_MAJOR}_SOURCES})
+add_python_extension(time BUILTIN REQUIRES HAVE_LIBM SOURCES time/timemodule.c LIBRARIES ${M_LIBRARIES} ${TIMEMODULE_LIB})
 add_python_extension(unicodedata SOURCES unicodedata.c)
 
 # Python3
@@ -146,16 +147,17 @@ add_python_extension(unicodedata SOURCES unicodedata.c)
 # endif()
 
 # UNIX-only extensions
-add_python_extension(fcntl REQUIRES UNIX SOURCES fcntlmodule.c)
-add_python_extension(grp REQUIRES UNIX SOURCES grpmodule.c)
-add_python_extension(nis REQUIRES UNIX HAVE_LIBNSL SOURCES nismodule.c LIBRARIES ${HAVE_LIBNSL})
-add_python_extension(posix REQUIRES UNIX BUILTIN SOURCES posixmodule.c)
-add_python_extension(pwd REQUIRES UNIX BUILTIN SOURCES pwdmodule.c) # this is needed to find out the user's home dir if $HOME is not set
-add_python_extension(resource REQUIRES UNIX SOURCES resource.c)
-add_python_extension(spwd REQUIRES UNIX HAVE_GETSPNAM HAVE_GETSPENT SOURCES spwdmodule.c)
-add_python_extension(syslog REQUIRES UNIX SOURCES syslogmodule.c)
-add_python_extension(termios REQUIRES UNIX SOURCES termios.c)
-
+if(UNIX)
+    add_python_extension(fcntl REQUIRES UNIX SOURCES unix/fcntlmodule.c)
+    add_python_extension(grp REQUIRES UNIX SOURCES unix/grpmodule.c)
+    #add_python_extension(nis REQUIRES UNIX HAVE_LIBNSL SOURCES nismodule.c LIBRARIES ${HAVE_LIBNSL})
+    add_python_extension(posix REQUIRES UNIX BUILTIN SOURCES unix/posixmodule.c)
+    add_python_extension(pwd REQUIRES UNIX BUILTIN SOURCES unix/pwdmodule.c) # this is needed to find out the user's home dir if $HOME is not set
+    add_python_extension(resource REQUIRES UNIX SOURCES unix/resource.c)
+    add_python_extension(spwd REQUIRES UNIX HAVE_GETSPNAM HAVE_GETSPENT SOURCES unix/spwdmodule.c)
+    add_python_extension(syslog REQUIRES UNIX SOURCES unix/syslogmodule.c)
+    add_python_extension(termios REQUIRES UNIX SOURCES unix/termios.c)
+endif()
 # Python3: UNIX-only extensions
 # add_python_extension(errno BUILTIN REQUIRES IS_PY3 UNIX SOURCES errnomodule.c)
 # add_python_extension(_posixsubprocess BUILTIN REQUIRES IS_PY3 UNIX SOURCES _posixsubprocess.c)
@@ -202,63 +204,65 @@ add_python_extension(${winreg${PY_VERSION_MAJOR}_NAME} REQUIRES WIN32 BUILTIN SO
 # endif()
 #add_python_extension(_distutils_findvs REQUIRES WIN32 IS_PY3 HAS_DISTUTILS_FINDVS_MODULE_SRC SOURCES ${module_src})
 
+# TPY DOES NOT SUPPORT MULTIPROCESSING NOW...
 # Multiprocessing is different on unix and windows
-if(UNIX)
-    set(_multiprocessing2_SOURCES
-        _multiprocessing/socket_connection.c
-    )
-    set(_multiprocessing3_SOURCES )
-    if(HAVE_SEM_OPEN AND NOT POSIX_SEMAPHORES_NOT_ENABLED)
-        list(APPEND _multiprocessing${PY_VERSION_MAJOR}_SOURCES
-            _multiprocessing/semaphore.c
-        )
-    endif()
-    add_python_extension(_multiprocessing
-        SOURCES _multiprocessing/multiprocessing.c
-                ${_multiprocessing${PY_VERSION_MAJOR}_SOURCES}
-        REQUIRES WITH_THREAD
-    )
-elseif(WIN32)
-    set(_multiprocessing2_SOURCES
-        _multiprocessing/pipe_connection.c
-        _multiprocessing/socket_connection.c
-        _multiprocessing/win32_functions.c
-    )
-    set(_multiprocessing3_SOURCES )
-    add_python_extension(_multiprocessing
-        SOURCES _multiprocessing/multiprocessing.c
-                _multiprocessing/semaphore.c
-                ${_multiprocessing${PY_VERSION_MAJOR}_SOURCES}
-        LIBRARIES ws2_32
-    )
-endif()
+# if(UNIX)
+#     set(_multiprocessing2_SOURCES
+#         _multiprocessing/socket_connection.c
+#     )
+#     set(_multiprocessing3_SOURCES )
+#     if(HAVE_SEM_OPEN AND NOT POSIX_SEMAPHORES_NOT_ENABLED)
+#         list(APPEND _multiprocessing${PY_VERSION_MAJOR}_SOURCES
+#             _multiprocessing/semaphore.c
+#         )
+#     endif()
+#     add_python_extension(_multiprocessing
+#         SOURCES _multiprocessing/multiprocessing.c
+#                 ${_multiprocessing${PY_VERSION_MAJOR}_SOURCES}
+#         REQUIRES WITH_THREAD
+#     )
+# elseif(WIN32)
+#     set(_multiprocessing2_SOURCES
+#         _multiprocessing/pipe_connection.c
+#         _multiprocessing/socket_connection.c
+#         _multiprocessing/win32_functions.c
+#     )
+#     set(_multiprocessing3_SOURCES )
+#     add_python_extension(_multiprocessing
+#         SOURCES _multiprocessing/multiprocessing.c
+#                 _multiprocessing/semaphore.c
+#                 ${_multiprocessing${PY_VERSION_MAJOR}_SOURCES}
+#         LIBRARIES ws2_32
+#     )
+# endif()
 
+# TPY DOES NOT SUPPORT SOCKET NOW...
 # Select needs winsock on Windows
-if(WIN32)
-    add_python_extension(select SOURCES selectmodule.c LIBRARIES ws2_32)
-else()
-    add_python_extension(select SOURCES selectmodule.c)
-endif()
+# if(WIN32)
+#     add_python_extension(select SOURCES selectmodule.c LIBRARIES ws2_32)
+# else()
+#     add_python_extension(select SOURCES selectmodule.c)
+# endif()
 
-# Socket is different on Windows
-set(_socket_SOURCES socketmodule.c)
-if(WIN32)
-    add_python_extension(_socket
-        REQUIRES HAVE_LIBM
-        SOURCES ${_socket_SOURCES}
-        DEFINITIONS EAI_ADDRFAMILY
-                    HAVE_SOCKADDR_STORAGE
-                    HAVE_ADDRINFO
-        LIBRARIES ws2_32 ${M_LIBRARIES}
-    )
-else()
-    list(APPEND _socket_SOURCES timemodule.c)
-    add_python_extension(_socket
-        REQUIRES HAVE_LIBM BUILTIN
-        SOURCES ${_socket_SOURCES}
-        LIBRARIES ${M_LIBRARIES}
-    )
-endif()
+# # Socket is different on Windows
+# set(_socket_SOURCES socketmodule.c)
+# if(WIN32)
+#     add_python_extension(_socket
+#         REQUIRES HAVE_LIBM
+#         SOURCES ${_socket_SOURCES}
+#         DEFINITIONS EAI_ADDRFAMILY
+#                     HAVE_SOCKADDR_STORAGE
+#                     HAVE_ADDRINFO
+#         LIBRARIES ws2_32 ${M_LIBRARIES}
+#     )
+# else()
+#     list(APPEND _socket_SOURCES timemodule.c)
+#     add_python_extension(_socket
+#         REQUIRES HAVE_LIBM BUILTIN
+#         SOURCES ${_socket_SOURCES}
+#         LIBRARIES ${M_LIBRARIES}
+#     )
+# endif()
 
 set(_libffi_system_dir ${CMAKE_SYSTEM_PROCESSOR})
 if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "i686")
@@ -486,22 +490,22 @@ endif()
 # builtin version.
 if(EXPAT_LIBRARIES AND EXPAT_INCLUDE_DIRS)
     add_python_extension(pyexpat
-        SOURCES pyexpat.c
+        SOURCES dataparser/pyexpat.c
         LIBRARIES ${EXPAT_LIBRARIES}
         INCLUDEDIRS ${EXPAT_INCLUDE_DIRS}
     )
-    add_python_extension(_elementtree
-        SOURCES _elementtree.c
+    add_python_extension(dataparser/_elementtree
+        SOURCES dataparser/_elementtree.c
         LIBRARIES ${EXPAT_LIBRARIES}
         INCLUDEDIRS ${EXPAT_INCLUDE_DIRS}
     )
 else()
     set(_pyexpat_definitions XML_STATIC)
     set(_pyexpat_SOURCES
-        pyexpat.c
-        expat/xmlparse.c
-        expat/xmlrole.c
-        expat/xmltok.c
+        dataparser/pyexpat.c
+        dataparser/expat/xmlparse.c
+        dataparser/expat/xmlrole.c
+        dataparser/expat/xmltok.c
         )
     if(UNIX)
         list(APPEND _pyexpat_definitions HAVE_EXPAT_CONFIG_H)
@@ -517,16 +521,16 @@ else()
     add_python_extension(pyexpat
         SOURCES ${_pyexpat_SOURCES}
         DEFINITIONS ${_pyexpat_definitions}
-        INCLUDEDIRS ${SRC_DIR}/Modules/expat
+        INCLUDEDIRS ${SRC_DIR}/Modules/dataparser/expat
     )
     set(_elementtree_definitions USE_PYEXPAT_CAPI)
     if(WIN32)
         list(APPEND _elementtree_definitions COMPILED_FROM_DSP)
     endif()
     add_python_extension(_elementtree
-        SOURCES _elementtree.c
+        SOURCES dataparser/_elementtree.c
         DEFINITIONS ${_elementtree_definitions}
-        INCLUDEDIRS ${SRC_DIR}/Modules/expat
+        INCLUDEDIRS ${SRC_DIR}/Modules/dataparser/expat
     )
 endif()
 
@@ -538,20 +542,20 @@ if(NOT WIN32 AND OPENSSL_LIBRARIES)
   set(HASH_NOT_AVAILABLE OFF)
 endif()
 
-add_python_extension(_md5 REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES md5.c md5module.c)
-add_python_extension(_sha REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES shamodule.c)
-add_python_extension(_sha256 REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES sha256module.c)
-add_python_extension(_sha512 REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES sha512module.c)
+add_python_extension(_md5 REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES math/md5.c math/md5module.c)
+add_python_extension(_sha REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES math/shamodule.c)
+add_python_extension(_sha256 REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES math/sha256module.c)
+add_python_extension(_sha512 REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES math/sha512module.c)
 
 else()
 
 # We always compile these even when OpenSSL is available (issue #14693).
 # It's harmless and the object code is tiny (40-50 KB per module,
 # only loaded when actually used).
-add_python_extension(_md5 ${WIN32_BUILTIN} SOURCES md5module.c)
-add_python_extension(_sha1 ${WIN32_BUILTIN} SOURCES sha1module.c)
-add_python_extension(_sha256 ${WIN32_BUILTIN} SOURCES sha256module.c)
-add_python_extension(_sha512 ${WIN32_BUILTIN} SOURCES sha512module.c)
+add_python_extension(_md5 ${WIN32_BUILTIN} SOURCES math/md5module.c)
+add_python_extension(_sha1 ${WIN32_BUILTIN} SOURCES math/sha1module.c)
+add_python_extension(_sha256 ${WIN32_BUILTIN} SOURCES math/sha256module.c)
+add_python_extension(_sha512 ${WIN32_BUILTIN} SOURCES math/sha512module.c)
 
 endif()
 
@@ -575,36 +579,38 @@ add_python_extension(binascii
     LIBRARIES ${binascii_LIBRARIES}
     INCLUDEDIRS ${binascii_INCLUDEDIRS}
 )
-add_python_extension(_bsddb
-    REQUIRES DB_INCLUDE_PATH DB_LIBRARIES
-    SOURCES _bsddb.c
-    LIBRARIES ${DB_LIBRARIES}
-    INCLUDEDIRS ${DB_INCLUDE_PATH}
-)
+# TPY DOES NOT SUPPORT
+# add_python_extension(_bsddb
+#     REQUIRES DB_INCLUDE_PATH DB_LIBRARIES
+#     SOURCES _bsddb.c
+#     LIBRARIES ${DB_LIBRARIES}
+#     INCLUDEDIRS ${DB_INCLUDE_PATH}
+# )
 set(bz2_2_NAME bz2)
-set(bz2_3_NAME _bz2)
+# set(bz2_3_NAME _bz2)
 add_python_extension(${bz2_${PY_VERSION_MAJOR}_NAME}
     REQUIRES BZIP2_LIBRARIES BZIP2_INCLUDE_DIR
-    SOURCES ${bz2_${PY_VERSION_MAJOR}_NAME}module.c
+    SOURCES compress/${bz2_${PY_VERSION_MAJOR}_NAME}module.c
     LIBRARIES ${BZIP2_LIBRARIES}
     INCLUDEDIRS ${BZIP2_INCLUDE_DIR}
 )
-set(curses_common_REQUIRES CURSES_LIBRARIES)
-set(curses_common_LIBRARIES ${CURSES_LIBRARIES})
-if(WITH_STATIC_DEPENDENCIES)
-    list(APPEND curses_common_REQUIRES TINFO_LIBRARY GPM_LIBRARY)
-    list(APPEND curses_common_LIBRARIES ${TINFO_LIBRARY} ${GPM_LIBRARY})
-endif()
-add_python_extension(_curses_panel
-    REQUIRES ${curses_common_REQUIRES} PANEL_LIBRARIES "HAVE_PANEL_H OR HAVE_NCURSES_PANEL_H"
-    SOURCES _curses_panel.c
-    LIBRARIES ${curses_common_LIBRARIES} ${PANEL_LIBRARIES}
-)
-add_python_extension(_curses
-    REQUIRES ${curses_common_REQUIRES}
-    SOURCES _cursesmodule.c
-    LIBRARIES ${curses_common_LIBRARIES}
-)
+# TPY DOES NOT SUPPORT CURSES
+# set(curses_common_REQUIRES CURSES_LIBRARIES)
+# set(curses_common_LIBRARIES ${CURSES_LIBRARIES})
+# if(WITH_STATIC_DEPENDENCIES)
+#     list(APPEND curses_common_REQUIRES TINFO_LIBRARY GPM_LIBRARY)
+#     list(APPEND curses_common_LIBRARIES ${TINFO_LIBRARY} ${GPM_LIBRARY})
+# endif()
+# add_python_extension(_curses_panel
+#     REQUIRES ${curses_common_REQUIRES} PANEL_LIBRARIES "HAVE_PANEL_H OR HAVE_NCURSES_PANEL_H"
+#     SOURCES _curses_panel.c
+#     LIBRARIES ${curses_common_LIBRARIES} ${PANEL_LIBRARIES}
+# )
+# add_python_extension(_curses
+#     REQUIRES ${curses_common_REQUIRES}
+#     SOURCES _cursesmodule.c
+#     LIBRARIES ${curses_common_LIBRARIES}
+# )
 # DBM is removed from TPY...
 # set(dbm2_SOURCES dbmmodule.c)
 # set(dbm3_SOURCES _dbmmodule.c)
@@ -645,28 +651,29 @@ if(ENABLE_HASHLIB AND CMAKE_C_COMPILER_ID MATCHES GNU)
 endif()
 add_python_extension(readline
     REQUIRES READLINE_INCLUDE_PATH READLINE_LIBRARY CURSES_LIBRARIES HAVE_READLINE_READLINE_H
-    SOURCES readline.c
+    SOURCES unix/readline.c
     LIBRARIES ${READLINE_LIBRARY} ${CURSES_LIBRARIES}
     INCLUDEDIRS ${READLINE_INCLUDE_PATH}
 )
-add_python_extension(_sqlite3
-    REQUIRES SQLITE3_INCLUDE_PATH SQLITE3_LIBRARY
-    SOURCES _sqlite/cache.c
-            _sqlite/connection.c
-            _sqlite/cursor.c
-            _sqlite/microprotocols.c
-            _sqlite/module.c
-            _sqlite/prepare_protocol.c
-            _sqlite/row.c
-            _sqlite/statement.c
-            _sqlite/util.c
-    DEFINITIONS MODULE_NAME="sqlite3" SQLITE_OMIT_LOAD_EXTENSION=1
-    INCLUDEDIRS ${SQLITE3_INCLUDE_PATH}
-    LIBRARIES ${SQLITE3_LIBRARY}
-)
-if(ENABLE_SQLITE3 AND CMAKE_C_COMPILER_ID MATCHES GNU)
-    set_property(SOURCE ${SRC_DIR}/Modules/_sqlite/module.c PROPERTY COMPILE_FLAGS -Wno-deprecated-declarations)
-endif()
+# TPY DOES NOT SUPPORT SQLITE3
+# add_python_extension(_sqlite3
+#     REQUIRES SQLITE3_INCLUDE_PATH SQLITE3_LIBRARY
+#     SOURCES _sqlite/cache.c
+#             _sqlite/connection.c
+#             _sqlite/cursor.c
+#             _sqlite/microprotocols.c
+#             _sqlite/module.c
+#             _sqlite/prepare_protocol.c
+#             _sqlite/row.c
+#             _sqlite/statement.c
+#             _sqlite/util.c
+#     DEFINITIONS MODULE_NAME="sqlite3" SQLITE_OMIT_LOAD_EXTENSION=1
+#     INCLUDEDIRS ${SQLITE3_INCLUDE_PATH}
+#     LIBRARIES ${SQLITE3_LIBRARY}
+# )
+# if(ENABLE_SQLITE3 AND CMAKE_C_COMPILER_ID MATCHES GNU)
+#     set_property(SOURCE ${SRC_DIR}/Modules/_sqlite/module.c PROPERTY COMPILE_FLAGS -Wno-deprecated-declarations)
+# endif()
 set(_ssl_LIBRARIES ${OPENSSL_LIBRARIES})
 if(WIN32)
     list(APPEND _ssl_LIBRARIES Crypt32 ws2_32)
@@ -677,25 +684,26 @@ add_python_extension(_ssl
     LIBRARIES ${_ssl_LIBRARIES}
     INCLUDEDIRS ${OPENSSL_INCLUDE_DIR}
 )
-set(_tkinter_REQUIRES TCL_LIBRARY TK_LIBRARY TCL_INCLUDE_PATH TK_INCLUDE_PATH)
-set(_tkinter_LIBRARIES ${TCL_LIBRARY} ${TK_LIBRARY})
-set(_tkinter_INCLUDEDIRS ${TCL_INCLUDE_PATH} ${TK_INCLUDE_PATH})
-if(UNIX)
-  list(APPEND _tkinter_REQUIRES X11_INCLUDE_DIR X11_LIBRARIES)
-  list(APPEND _tkinter_LIBRARIES ${X11_LIBRARIES})
-  list(APPEND _tkinter_INCLUDEDIRS ${X11_INCLUDE_DIR})
-endif()
-add_python_extension(_tkinter
-    REQUIRES ${_tkinter_REQUIRES}
-    SOURCES _tkinter.c tkappinit.c
-    DEFINITIONS WITH_APPINIT=1
-    LIBRARIES ${_tkinter_LIBRARIES}
-    INCLUDEDIRS ${_tkinter_INCLUDEDIRS}
-)
+# TPY DOES NOT SUPPORT TKINTER
+# set(_tkinter_REQUIRES TCL_LIBRARY TK_LIBRARY TCL_INCLUDE_PATH TK_INCLUDE_PATH)
+# set(_tkinter_LIBRARIES ${TCL_LIBRARY} ${TK_LIBRARY})
+# set(_tkinter_INCLUDEDIRS ${TCL_INCLUDE_PATH} ${TK_INCLUDE_PATH})
+# if(UNIX)
+#   list(APPEND _tkinter_REQUIRES X11_INCLUDE_DIR X11_LIBRARIES)
+#   list(APPEND _tkinter_LIBRARIES ${X11_LIBRARIES})
+#   list(APPEND _tkinter_INCLUDEDIRS ${X11_INCLUDE_DIR})
+# endif()
+# add_python_extension(_tkinter
+#     REQUIRES ${_tkinter_REQUIRES}
+#     SOURCES _tkinter.c tkappinit.c
+#     DEFINITIONS WITH_APPINIT=1
+#     LIBRARIES ${_tkinter_LIBRARIES}
+#     INCLUDEDIRS ${_tkinter_INCLUDEDIRS}
+# )
 if(NOT USE_BUILTIN_ZLIB)
     add_python_extension(zlib
         REQUIRES ZLIB_LIBRARY ZLIB_INCLUDE_DIR
-        SOURCES zlibmodule.c
+        SOURCES compress/zlibmodule.c
         LIBRARIES ${ZLIB_LIBRARY}
         INCLUDEDIRS ${ZLIB_INCLUDE_DIR}
     )
@@ -703,19 +711,19 @@ else()
     add_python_extension(zlib BUILTIN
         REQUIRES
         SOURCES
-            zlibmodule.c
-            zlib/adler32.c
-            zlib/compress.c
-            zlib/crc32.c
-            zlib/deflate.c
-            zlib/infback.c
-            zlib/inffast.c
-            zlib/inflate.c
-            zlib/inftrees.c
-            zlib/trees.c
-            zlib/uncompr.c
-            zlib/zutil.c
-        INCLUDEDIRS ${SRC_DIR}/Modules/zlib
+            compress/zlibmodule.c
+            compress/zlib/adler32.c
+            compress/zlib/compress.c
+            compress/zlib/crc32.c
+            compress/zlib/deflate.c
+            compress/zlib/infback.c
+            compress/zlib/inffast.c
+            compress/zlib/inflate.c
+            compress/zlib/inftrees.c
+            compress/zlib/trees.c
+            compress/zlib/uncompr.c
+            compress/zlib/zutil.c
+        INCLUDEDIRS ${SRC_DIR}/Modules/compress/zlib
     )
 endif()
 

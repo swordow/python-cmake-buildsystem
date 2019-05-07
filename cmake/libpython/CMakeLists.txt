@@ -4,18 +4,18 @@ add_definitions(-DNDEBUG)
 set(MODULE_SOURCES # Equivalent to MODULE_OBJS in Makefile.pre
     ${PROJECT_BINARY_DIR}/CMakeFiles/config.c
     ${SRC_DIR}/Modules/gcmodule.c
-    ${SRC_DIR}/Modules/main.c
+    #${SRC_DIR}/Python/main.c
 )
 if(UNIX)
     list(APPEND MODULE_SOURCES
-        ${SRC_DIR}/Modules/getpath.c
+        ${SRC_DIR}/Modules/unix/getpath.c
     )
     set(PYTHONPATH "${EXTRA_PYTHONPATH}:lib-dynload:plat-${PY_PLATFORM}")
     if(ENABLE_TKINTER)
         set(PYTHONPATH "${PYTHONPATH}:lib-tk")
     endif()
     set_property(
-        SOURCE ${SRC_DIR}/Modules/getpath.c
+        SOURCE ${SRC_DIR}/Modules/unix/getpath.c
         PROPERTY COMPILE_DEFINITIONS
             PREFIX="${CMAKE_INSTALL_PREFIX}"
             EXEC_PREFIX="${CMAKE_INSTALL_PREFIX}"
@@ -154,11 +154,11 @@ set(DYNLOAD_SOURCES
 
 if(UNIX AND HAVE_DLOPEN)
     list(APPEND DYNLOAD_SOURCES
-        ${SRC_DIR}/PythonCore/dynload_shlib.c
+        ${SRC_DIR}/PythonCore/unixlike/dynload_shlib.c
     )
     # if(IS_PY3)
     # set_property(
-    #     SOURCE ${SRC_DIR}/PythonCore/dynload_shlib.c
+    #     SOURCE ${SRC_DIR}/PythonCore/unixlike/dynload_shlib.c
     #     PROPERTY COMPILE_DEFINITIONS
     #         SOABI="${SOABI}"
     #     )
@@ -180,12 +180,13 @@ elseif(WIN32)
         )
 endif()
 
-set(THREAD_SOURCES )
-if(WITH_THREAD)
-    list(APPEND THREAD_SOURCES
-        ${SRC_DIR}/PythonCore/thread.c
-    )
-endif()
+# TPY DOES NOT RAW THREAD...
+# set(THREAD_SOURCES )
+# if(WITH_THREAD)
+#     list(APPEND THREAD_SOURCES
+#         ${SRC_DIR}/PythonCore/thread.c
+#     )
+# endif()
 
 set(PYTHON2_COMMON_SOURCES
     ${SRC_DIR}/PythonCore/formatter_string.c
@@ -237,7 +238,7 @@ set(PYTHON_COMMON_SOURCES
     ${SRC_DIR}/PythonCore/peephole.c
     ${SRC_DIR}/PythonCore/pyarena.c
     ${SRC_DIR}/PythonCore/pyctype.c
-    ${SRC_DIR}/PythonCore/pyfpe.c
+    #${SRC_DIR}/PythonCore/pyfpe.c omitted, see in OmittedPyElements
     ${SRC_DIR}/PythonCore/pymath.c
     ${SRC_DIR}/PythonCore/pystate.c
     ${SRC_DIR}/PythonCore/pystrcmp.c
@@ -252,7 +253,7 @@ set(PYTHON_COMMON_SOURCES
 )
 if(UNIX)
     list(APPEND PYTHON_COMMON_SOURCES
-        ${SRC_DIR}/PythonCore/frozenmain.c
+        ${SRC_DIR}/PythonCore/unixlike/frozenmain.c
     )
 else()
     list(APPEND PYTHON_COMMON_SOURCES
@@ -280,10 +281,10 @@ list(APPEND MODULE_SOURCES
     ${SRC_DIR}/Modules/errnomodule.c
     ${SRC_DIR}/Modules/signalmodule.c
     ${SRC_DIR}/Modules/_sre.c
-    ${SRC_DIR}/Modules/symtablemodule.c
+    ${SRC_DIR}/Modules/parser/symtablemodule.c
     ${SRC_DIR}/Modules/_weakref.c
     ${SRC_DIR}/Modules/xxsubtype.c
-    ${SRC_DIR}/Modules/zipimport.c
+    ${SRC_DIR}/Modules/compress/zipimport.c
 )
 
 set(LIBPYTHON_OMIT_FROZEN_SOURCES
