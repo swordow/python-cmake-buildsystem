@@ -609,13 +609,13 @@ endif()
 
 # Create an empty lib-dynload folder, even if we don't have any extensions
 # to go in there.  bin/python uses this to auto-determine the exec_prefix
-# and properly generate the _sysconfigdata.py
+# and properly generate the _sysconfigdata.tpy
 file(MAKE_DIRECTORY "${EXTENSION_BUILD_DIR}")
 install(CODE "file(MAKE_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}/${EXTENSION_INSTALL_DIR}\")")
 
 if(BUILD_TESTING)
     set(TESTOPTS -l)
-    set(TESTPROG ${PROJECT_BINARY_DIR}/${PYTHONHOME}/test/regrtest.py)
+    set(TESTPROG ${PROJECT_BINARY_DIR}/${PYTHONHOME}/test/regrtest.tpy)
     set(TESTPYTHONOPTS )
     if(IS_PY2)
       set(TESTPYTHON $<TARGET_FILE:python> -Wd -3 -E -tt ${TESTPYTHONOPTS})

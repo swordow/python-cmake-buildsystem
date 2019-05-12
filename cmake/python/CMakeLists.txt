@@ -53,7 +53,7 @@ endif()
 
 if(UNIX)
     # Setup landmark allowing to run the interpreter from a build tree. See 'getpath.c' for details.
-    set(_sysconfigdata_py "_sysconfigdata.py")
+    set(_sysconfigdata_py "_sysconfigdata.tpy")
     # if("${PY_VERSION}" VERSION_EQUAL "3.6.0" OR "${PY_VERSION}" VERSION_GREATER "3.6.0")
     #     # XXX Add support for _PYTHON_SYSCONFIGDATA_NAME env. variable
     #     set(MULTIARCH "")

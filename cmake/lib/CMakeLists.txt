@@ -55,8 +55,8 @@ if(UNIX)
   endif()
   set(wrapper env \${_envvar}=\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${LIBPYTHON_LIBDIR})
 endif()
-execute_process(COMMAND \${wrapper} \${PYTHON_EXECUTABLE} -m lib2to3.pgen2.driver
-  \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${PYTHONHOME}/lib2to3/Grammar.txt)
-execute_process(COMMAND \${wrapper} \${PYTHON_EXECUTABLE} -m lib2to3.pgen2.driver
-  \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${PYTHONHOME}/lib2to3/PatternGrammar.txt)
+#execute_process(COMMAND \${wrapper} \${PYTHON_EXECUTABLE} -m lib2to3.pgen2.driver
+#  \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${PYTHONHOME}/lib2to3/Grammar.txt)
+#execute_process(COMMAND \${wrapper} \${PYTHON_EXECUTABLE} -m lib2to3.pgen2.driver
+#  \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${PYTHONHOME}/lib2to3/PatternGrammar.txt)
 ")
