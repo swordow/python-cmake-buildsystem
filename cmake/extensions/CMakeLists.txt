@@ -86,7 +86,7 @@ add_python_extension(_io BUILTIN SOURCES ${_io_SOURCES})
 add_python_extension(itertools ${WIN32_BUILTIN} SOURCES itertoolsmodule.c) # Functions creating iterators for efficient looping
 add_python_extension(_json ${WIN32_BUILTIN} SOURCES dataparser/_json.c)
 add_python_extension(_locale ${WIN32_BUILTIN} SOURCES _localemodule.c) # access to ISO C locale support
-add_python_extension(_lsprof ${WIN32_BUILTIN} SOURCES profiler/_lsprof.c common/rotatingtree.c)
+add_python_extension(_lsprof ${WIN32_BUILTIN} SOURCES profiler/_lsprof.c profiler/rotatingtree.c)
 add_python_extension(math ${WIN32_BUILTIN} SOURCES math/_math.c math/mathmodule.c)
 #add_python_extension(mmap ${WIN32_BUILTIN} SOURCES mmapmodule.c)
 add_python_extension(_multibytecodec ${WIN32_BUILTIN} SOURCES cjkcodecs/multibytecodec.c)
