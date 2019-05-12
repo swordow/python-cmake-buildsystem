@@ -291,9 +291,9 @@ set(IS_PY2 1)
 # endif()
 
 # Enable CXX language to support building of _distutils_findvs extension
-if(WIN32 AND IS_PY3)
-  enable_language(CXX)
-endif()
+# if(WIN32 AND IS_PY3)
+#   enable_language(CXX)
+# endif()
 
 # Options depending of the python version
 if(IS_PY2)
@@ -304,16 +304,16 @@ else()
   endif()
 endif()
 
-if(PY_VERSION_MAJOR VERSION_GREATER 2.7.10)
+#if(PY_VERSION_MAJOR VERSION_GREATER 2.7.10)
 # See "Improving performance in Python 2.7" - http://lwn.net/Articles/646888/
 option(WITH_COMPUTED_GOTOS "Improve performance enabling the computed goto based dispatch" OFF)
 set(USE_COMPUTED_GOTOS ${WITH_COMPUTED_GOTOS})
-endif()
+#endif()
 
-if(IS_PY3)
-set(WITH_HASH_ALGORITHM "default" CACHE STRING "Define hash algorithm for str, bytes and memoryview.")
-set_property(CACHE WITH_HASH_ALGORITHM PROPERTY STRINGS "default" "siphash24" "fnv")
-endif()
+# if(IS_PY3)
+# set(WITH_HASH_ALGORITHM "default" CACHE STRING "Define hash algorithm for str, bytes and memoryview.")
+# set_property(CACHE WITH_HASH_ALGORITHM PROPERTY STRINGS "default" "siphash24" "fnv")
+# endif()
 
 # This is the major version number of Python
 set(LIBPYTHON_VERSION ${PY_VERSION_MAJOR}.${PY_VERSION_MINOR})
@@ -407,7 +407,7 @@ endif()
 # Set include directories
 include_directories(${INCLUDE_BUILD_DIR})
 include_directories(${PYCONFIG_BUILD_DIR})
-include_directories(${SRC_DIR}/Python)
+include_directories(${SRC_DIR}/PythonCore)
 
 # Set cflags used by all components
 if(CMAKE_C_COMPILER_ID MATCHES GNU)

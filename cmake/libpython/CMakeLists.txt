@@ -433,19 +433,21 @@ set(LIBPYTHON_FROZEN_SOURCES )
 # endif()
 
 # Build pgen executable
-set(PGEN2_SOURCES
-    ${SRC_DIR}/Parser/parsetok.c
-)
-set(PGEN3_SOURCES
-    ${SRC_DIR}/PythonCore/dynamic_annotations.c
-    ${SRC_DIR}/Parser/parsetok_pgen.c
-)
+# set(PGEN2_SOURCES
+#     ${SRC_DIR}/Parser/parsetok.c
+# )
+# set(PGEN3_SOURCES
+#     ${SRC_DIR}/PythonCore/dynamic_annotations.c
+#     ${SRC_DIR}/Parser/parsetok_pgen.c
+# )
 add_executable(pgen
     ${PARSER_COMMON_SOURCES}
-    ${PGEN${PY_VERSION_MAJOR}_SOURCES}
+    # ${PGEN${PY_VERSION_MAJOR}_SOURCES}
     ${SRC_DIR}/Objects/obmalloc.c
     ${SRC_DIR}/PythonCore/mysnprintf.c
     ${SRC_DIR}/PythonCore/pyctype.c
+    # ${SRC_DIR}/PythonCore/codecs.c
+    ${SRC_DIR}/Parser/parsetok.c
     ${SRC_DIR}/Parser/tokenizer.c
     ${SRC_DIR}/Parser/printgrammar.c
     ${SRC_DIR}/ParserGenerator/pgenmain.c
@@ -453,6 +455,8 @@ add_executable(pgen
 )
 if(builtin_compile_definitions_without_py_limited_api)
   target_compile_definitions(pgen PUBLIC ${builtin_compile_definitions_without_py_limited_api} -DPGEN)
+else()
+    target_compile_definitions(pgen PUBLIC -DPGEN)
 endif()
 
 # Collect libpython sources

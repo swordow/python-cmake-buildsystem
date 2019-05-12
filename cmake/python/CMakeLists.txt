@@ -3,6 +3,7 @@ set(subdir_3  Programs)
 
 set(PYTHON_SOURCES
     ${SRC_DIR}/Python/python.c
+    ${SRC_DIR}/Python/main.c
 )
 
 add_executable(python ${PYTHON_SOURCES})
@@ -37,6 +38,8 @@ add_custom_command(TARGET python PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory ${BIN_BUILD_DIR}/${CMAKE_CFG_INTDIR}/Modules
     COMMAND ${CMAKE_COMMAND} -E touch ${BIN_BUILD_DIR}/${CMAKE_CFG_INTDIR}/Modules/Setup.local
     COMMENT "Creating '${BIN_INSTALL_DIR}/${CMAKE_CFG_INTDIR}/Modules/Setup.local'"
+    COMMAND ${CMAKE_COMMAND} -E touch ${BIN_BUILD_DIR}/${CMAKE_CFG_INTDIR}/Modules/Setup
+    COMMENT "Creating '${BIN_INSTALL_DIR}/${CMAKE_CFG_INTDIR}/Modules/Setup'"
     )
 
 if(WIN32)
@@ -48,14 +51,18 @@ if(WIN32)
         )
 endif()
 
-if(UNIX AND PY_VERSION VERSION_GREATER "2.7.4")
+if(UNIX)
     # Setup landmark allowing to run the interpreter from a build tree. See 'getpath.c' for details.
     set(_sysconfigdata_py "_sysconfigdata.py")
-    if("${PY_VERSION}" VERSION_EQUAL "3.6.0" OR "${PY_VERSION}" VERSION_GREATER "3.6.0")
-        # XXX Add support for _PYTHON_SYSCONFIGDATA_NAME env. variable
-        set(MULTIARCH "")
-        set(_sysconfigdata_py "_sysconfigdata_${ABIFLAGS}_${PY_PLATFORM}_${MULTIARCH}.py")
-    endif()
+    # if("${PY_VERSION}" VERSION_EQUAL "3.6.0" OR "${PY_VERSION}" VERSION_GREATER "3.6.0")
+    #     # XXX Add support for _PYTHON_SYSCONFIGDATA_NAME env. variable
+    #     set(MULTIARCH "")
+    #     set(_sysconfigdata_py "_sysconfigdata_${ABIFLAGS}_${PY_PLATFORM}_${MULTIARCH}.py")
+    # endif()
+    message(STATUS "BIN_BUILD_DIR ${BIN_BUILD_DIR} EXTENSION_BUILD_DIR ${EXTENSION_BUILD_DIR}")
+    message(STATUS "PYTHON_WRAPPER_COMMAND ${PYTHON_WRAPPER_COMMAND}")
+    message(STATUS "CMAKE_CROSSCOMPILING_EMULATOR ${CMAKE_CROSSCOMPILING_EMULATOR}")
+    
     add_custom_command(
         OUTPUT ${BIN_BUILD_DIR}/pybuilddir.txt ${EXTENSION_BUILD_DIR}/${_sysconfigdata_py}
         COMMAND ${PYTHON_WRAPPER_COMMAND}
