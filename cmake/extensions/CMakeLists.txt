@@ -172,8 +172,8 @@ add_python_extension(_scproxy
 )
 
 # Linux-only extensions
-add_python_extension(linuxaudiodev REQUIRES LINUX IS_PY2 SOURCES linuxaudiodev.c)
-add_python_extension(ossaudiodev REQUIRES LINUX SOURCES ossaudiodev.c)
+#add_python_extension(linuxaudiodev REQUIRES LINUX IS_PY2 SOURCES linuxaudiodev.c)
+#add_python_extension(ossaudiodev REQUIRES LINUX SOURCES ossaudiodev.c)
 
 # Windows-only extensions
 add_python_extension(_msi
@@ -182,7 +182,7 @@ add_python_extension(_msi
     LIBRARIES cabinet.lib msi.lib rpcrt4.lib
 )
 add_python_extension(msvcrt REQUIRES MSVC BUILTIN SOURCES ${SRC_DIR}/PC/msvcrtmodule.c)
-add_python_extension(nt REQUIRES WIN32 BUILTIN SOURCES posixmodule.c)
+add_python_extension(nt REQUIRES WIN32 BUILTIN SOURCES unix/posixmodule.c)
 add_python_extension(_subprocess REQUIRES WIN32 BUILTIN SOURCES ${SRC_DIR}/PC/_subprocess.c)
 
 set(winreg2_NAME _winreg)

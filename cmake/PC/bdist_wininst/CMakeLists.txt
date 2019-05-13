@@ -13,12 +13,12 @@ set(WININST_HEADERS
 set(WININST_SOURCES
     ${SRC_DIR}/PC/bdist_wininst/extract.c
     ${SRC_DIR}/PC/bdist_wininst/install.c
-    ${SRC_DIR}/Modules/zlib/adler32.c
-    ${SRC_DIR}/Modules/zlib/crc32.c
-    ${SRC_DIR}/Modules/zlib/inffast.c
-    ${SRC_DIR}/Modules/zlib/inflate.c
-    ${SRC_DIR}/Modules/zlib/inftrees.c
-    ${SRC_DIR}/Modules/zlib/zutil.c
+    ${SRC_DIR}/Modules/compress/zlib/adler32.c
+    ${SRC_DIR}/Modules/compress/zlib/crc32.c
+    ${SRC_DIR}/Modules/compress/zlib/inffast.c
+    ${SRC_DIR}/Modules/compress/zlib/inflate.c
+    ${SRC_DIR}/Modules/compress/zlib/inftrees.c
+    ${SRC_DIR}/Modules/compress/zlib/zutil.c
 )
 
 # Install tree directory
