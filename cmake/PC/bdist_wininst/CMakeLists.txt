@@ -2,7 +2,7 @@
 
 include_directories(
     ${SRC_DIR}/Include
-    ${SRC_DIR}/Modules/zlib
+    ${SRC_DIR}/Modules/compress/zlib
 )
 
 set(WININST_HEADERS
