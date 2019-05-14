@@ -8,12 +8,12 @@ list(GET VERSION_LIST 1 PY_VERSION_MINOR)
 list(GET VERSION_LIST 2 PY_VERSION_PATCH)
 set(PY_VERSION "${PY_VERSION_MAJOR}.${PY_VERSION_MINOR}.${PY_VERSION_PATCH}")
 
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    set(CMAKE_CONFIGURATION_TYPES Release CACHE STRING "Release configuration" FORCE)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
-    # Set the possible values of build type for cmake-gui
-    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Release")
-endif()
+#if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+#    set(CMAKE_CONFIGURATION_TYPES Release CACHE STRING "Release configuration" FORCE)
+#    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+#    # Set the possible values of build type for cmake-gui
+#    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Release")
+#endif()
 
 if(APPLE)
   set(_msg "Checking which MACOSX_DEPLOYMENT_TARGET to use")
