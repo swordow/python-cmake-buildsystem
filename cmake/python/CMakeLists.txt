@@ -14,6 +14,7 @@ set_property(
 
 # Link against the shared libpython if it was built, otherwise use the static
 # version.
+target_link_libraries(python libpython-extensions-static)
 if(BUILD_LIBPYTHON_SHARED)
     target_link_libraries(python libpython-shared)
 else()

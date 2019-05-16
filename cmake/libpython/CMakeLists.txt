@@ -318,7 +318,7 @@ if(WIN32)
         endif()
     endforeach()
 endif()
-list(APPEND LIBPYTHON_OMIT_FROZEN_SOURCES ${builtin_extension_sources})
+#list(APPEND LIBPYTHON_OMIT_FROZEN_SOURCES ${builtin_extension_sources})
 
 # Collect builtin extension link libraries
 set(builtin_link_libraries)
@@ -393,6 +393,7 @@ endif()
 # endif()
 
 set(LIBPYTHON_FROZEN_SOURCES )
+set(LIBPYTHON_EXTENSION_SOURCES ${builtin_extension_sources})
 # if(IS_PY3)
 
 # # Build _freeze_importlib executable
@@ -506,6 +507,59 @@ function(add_libpython name type install component)
         )
     endif()
 endfunction()
+
+function(add_libpython_extensions name type install component)
+    #message(STATUS ${LIBPYTHON_EXTENSION_SOURCES})
+    add_library(${name} ${type} ${LIBPYTHON_EXTENSION_SOURCES})
+
+    if(MSVC)
+        # Explicitly disable COMDAT folding. Note that this was not required
+        # in the original "pcbuild.sln" solution file because it was side effect
+        # of having "/Zi" flag set.
+        set_target_properties(${name} PROPERTIES LINK_FLAGS /OPT:NOICF)
+    endif()
+
+    set_target_properties(${name} PROPERTIES
+        OUTPUT_NAME ${LIBPYTHON}${ABIFLAGS}
+        LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LIBPYTHON_LIBDIR}
+        RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LIBPYTHON_LIBDIR}
+        INSTALL_NAME_DIR ${CMAKE_INSTALL_PREFIX}/${LIBPYTHON_LIBDIR}
+    )
+    if(HAVE_POSITION_INDEPENDENT_CODE)
+        set_target_properties(${name} PROPERTIES
+            POSITION_INDEPENDENT_CODE ON
+        )
+    endif()
+
+    # Export target
+    set_property(GLOBAL APPEND PROPERTY PYTHON_TARGETS ${name})
+
+    if(install)
+        install(TARGETS ${name} EXPORT PythonTargets
+            ARCHIVE DESTINATION ${LIBPYTHON_ARCHIVEDIR}
+            LIBRARY DESTINATION ${LIBPYTHON_LIBDIR}
+            RUNTIME DESTINATION ${LIBPYTHON_LIBDIR}
+            COMPONENT ${component}
+        )
+    endif()
+endfunction()
+
+add_libpython_extensions(libpython-extensions-static STATIC ${INSTALL_DEVELOPMENT} Development)
+if(HAVE_TARGET_COMPILE_DEFINITIONS)
+    target_compile_definitions(libpython-extensions-static PUBLIC Py_NO_ENABLE_SHARED)
+else()
+    set_target_properties(libpython-extensions-static PROPERTIES
+        COMPILE_DEFINITIONS Py_NO_ENABLE_SHARED
+    )
+endif()
+set_target_properties(libpython-extensions-static PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LIBPYTHON_STATIC_ARCHIVEDIR}
+)
+if(INSTALL_DEVELOPMENT)
+    install(TARGETS libpython-extensions-static
+        ARCHIVE DESTINATION ${PYTHONHOME}/config/
+        COMPONENT Development)
+endif()
 
 if(BUILD_LIBPYTHON_SHARED)
     add_libpython(libpython-shared SHARED 1 Runtime)
