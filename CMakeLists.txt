@@ -321,6 +321,7 @@ if(WIN32)
     set(LIBPYTHON_VERSION ${PY_VERSION_MAJOR}${PY_VERSION_MINOR})
 endif()
 set(LIBPYTHON python${LIBPYTHON_VERSION})
+set(LIBPYTHON_EXTENSIONS python_extensions${LIBPYTHON_VERSION})
 
 # Proceed to the configure checks
 include(cmake/ConfigureChecks.cmake)
